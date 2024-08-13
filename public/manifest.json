@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "AI PR Reviewer",
+  "description": "AI PR Reviewer for Github",
+  "version": "1.0",
+  "action": {
+    "default_popup": "index.html",
+    "default_icon": "logo.png"
+  },
+  "minimum_chrome_version": "116",
+  "host_permissions": ["https://github.com/*", "https://api.github.com/*"],
+  "content_scripts": [
+    {
+      "run_at": "document_end",
+      "matches": ["https://github.com/*", "https://gist.github.com/*"],
+      "exclude_matches": ["https://*/login/*"],
+      "js": ["assets/content_script.js"],
+      "css": ["content_script.css"]
+    }
+  ],
+  "optional_permissions": ["*://*/*"],
+  "optional_host_permissions": ["*://*/*"],
+  "permissions": ["scripting", "storage", "tabs", "cookies"],
+  "web_accessible_resources": [
+    {
+      "resources": ["/assets/logo.png"],
+      "matches": ["https://github.com/*", "https://gist.github.com/*"]
+    }
+  ]
+}

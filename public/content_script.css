@@ -1,0 +1,11 @@
+#ai-review-button {
+  border: 0;
+  font-size: 0;
+  text-indent: -9999px;
+  background-size: 18px;
+  width: 32px;
+  height: 32px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: transparent;
+}
