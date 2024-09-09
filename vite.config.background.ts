@@ -3,33 +3,30 @@ import react from "@vitejs/plugin-react";
 import { fileURLToPath } from "url";
 
 /**
- * Vite configuration for the content script
+ * Vite configuration for the background script
  */
 export default defineConfig({
   plugins: [react()],
   build: {
+    // Minify was causing extension error
     minify: false,
     emptyOutDir: false,
     rollupOptions: {
       input: {
-        contentScript: fileURLToPath(
-          new URL("./src/content_script.tsx", import.meta.url)
+        background: fileURLToPath(
+          new URL("./src/background.ts", import.meta.url)
         ),
       },
       output: {
         inlineDynamicImports: true,
-        chunkFileNames: (chunkInfo) => {
-          console.log("chunkInfo", chunkInfo.name);
-          if (chunkInfo.name === "client") {
-            return "assets/client.js";
-          }
+        chunkFileNames: () => {
           return "assets/[name].js";
         },
         assetFileNames: `assets/[name].[ext]`,
         // Custom output configuration
         entryFileNames: (chunkInfo) => {
-          if (chunkInfo.name === "contentScript") {
-            return "assets/content_script.js";
+          if (chunkInfo.name === "background") {
+            return "assets/background.js";
           }
           return "assets/index.js";
         },
