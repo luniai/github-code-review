@@ -1,50 +1,51 @@
-# React + TypeScript + Vite
+# Ai PR Reviewer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a simple web application that uses the [OpenAI GPT-3](https://beta.openai.com/docs/) API that generate review comments from a Github pull requests.
 
-Currently, two official plugins are available:
+## Why create this? reviews should not be meant to be automated
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+With the current power of AI, more juniors developers in the teams are able to push code more frequently and faster. This is a good thing, but it also means that the code review process can be a bottleneck. This is where AI can help, by providing a first layer of review comments that can either help developers to improve their code before a human review, or help senior developers to get a second opinion in their review.
 
-## Expanding the ESLint configuration
+This is not meant to replace human reviews, but it's about leveraging the power of AI to help developers to speed up the process of reviewing a code.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Tech Stack
 
-- Configure the top-level `parserOptions` property like this:
+### React + Typescript
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+React is a JavaScript library for building user interfaces. It is maintained by Facebook and a community of individual developers and companies.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+Source: [docs](https://reactjs.org/)
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+Typescript is a superset of JavaScript that adds optional types to the language. It is maintained by Microsoft.
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+Source: [docs](https://www.typescriptlang.org/)
+
+### OpenAI GPT
+
+GPT is a state-of-the-art language model developed by OpenAI. It is the third iteration of the Generative Pre-trained Transformer (GPT) series of models.
+
+Source: [docs](https://beta.openai.com/docs/)
+
+### IndexDB
+
+IndexedDB is a low-level API for client-side storage of significant amounts of structured data, including files/blobs. This API uses indexes to enable high-performance searches of this data. While Web Storage is useful for storing smaller amounts of data, it is less useful for storing larger amounts of structured data.
+
+Source: [docs](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API)
+
+As we want to store all the prompts and apis responses in the browser, we are using IndexDB rather than local storage or session storage
+
+#### Dexie
+
+Dexie.js is a wrapper library for IndexedDB. It makes it easier to work with IndexedDB by providing a simple API to interact with the database.
+
+Source: [docs](https://dexie.org/)
+
+### Vite
+
+Vite is a build tool that aims to provide a faster and leaner development experience for modern web projects.
+
+Source: [docs](https://vitejs.dev/)
+
+## Contributing
+
+Thank you for considering contributing to the project. Please read the [CONTRIBUTING.md](CONTRIBUTING.md) file for more information before you start contributing.
