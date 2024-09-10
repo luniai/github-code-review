@@ -18,6 +18,9 @@
       "css": ["content_script.css"]
     }
   ],
+  "background": {
+    "service_worker": "assets/background.js"
+  },
   "optional_permissions": ["*://*/*"],
   "optional_host_permissions": ["*://*/*"],
   "permissions": ["scripting", "storage", "tabs", "cookies"],
