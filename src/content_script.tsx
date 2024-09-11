@@ -8,6 +8,9 @@ import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import { sendOpenAiReview } from "./fetchers/send_open_ai_review";
 import { domChangeWatcher } from "./utils/dom_change_watcher";
 
+const GITHUB_PR_DETAILS_QUERY_KEY = "githubPrDetails";
+const OPEN_AI_REVIEW_QUERY_KEY = "openAiReview";
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -67,7 +70,7 @@ const ReviewContainer = ({ isOpen, diffHtml, file }: ReviewContainerProps) => {
     isLoading,
     isError,
   } = useQuery(
-    ["githubPrDescription", window.location.href],
+    [GITHUB_PR_DETAILS_QUERY_KEY, window.location.href],
     () => fetchGithubPRTitleAndDescription(githubPrDetails),
     {
       enabled: isOpen,
@@ -80,7 +83,7 @@ const ReviewContainer = ({ isOpen, diffHtml, file }: ReviewContainerProps) => {
     isError: isAIReviewError,
     isIdle: isAiReviewIdle,
   } = useQuery(
-    ["openAiReview", file],
+    [OPEN_AI_REVIEW_QUERY_KEY, file],
     () =>
       sendOpenAiReview({
         file,
@@ -131,6 +134,7 @@ const AIReviewButton = () => {
     document.querySelectorAll("#files .file .file-header").length || 0
   );
 
+  // Listen for changes in the DOM to update the fileHeadersLength state
   useEffect(() => {
     const disconnectObserver = domChangeWatcher(
       "#files .file .file-header",
@@ -219,13 +223,15 @@ const AIReviewButton = () => {
   return null;
 };
 
-const processGithubPage = async () => {
+// Function to process the GitHub Pull Request page, and render the AIReviewButton component
+const processGithubPullRequestPage = async () => {
   const rootElement = document.createElement("div");
   document.body.appendChild(rootElement);
   createRoot(rootElement).render(<AIReviewButton />);
 
-  domUpdateWatcher(processGithubPage, 50);
+  /* Add a watcher to detect changes in the DOM, and re-render the AIReviewButton component if it's not present */
+  domUpdateWatcher(processGithubPullRequestPage, 50);
 };
 
 // Call the function to process the GitHub page initially
-void processGithubPage();
+void processGithubPullRequestPage();

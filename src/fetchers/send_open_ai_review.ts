@@ -1,6 +1,9 @@
 import { defaultOpenAiSettings, GET_OPEN_AI_SETTINGS } from "../constants";
 import { OpenAiSettings } from "../types";
 
+const OPEN_AI_V1_CHAT_COMPLETIONS_URL =
+  "https://api.openai.com/v1/chat/completions";
+
 function fetchOpenAiSettingsFromBackground(): Promise<
   OpenAiSettings | undefined
 > {
@@ -37,8 +40,6 @@ export const sendOpenAiReview = async ({
 
   const model = openApiSettings?.model;
 
-  const url = "https://api.openai.com/v1/chat/completions";
-
   const getCustomPrompt = () => {
     const customPrompt =
       openApiSettings?.customPrompt || defaultOpenAiSettings.customPrompt;
@@ -65,7 +66,7 @@ export const sendOpenAiReview = async ({
     },
   ];
 
-  const response = await fetch(url, {
+  const response = await fetch(OPEN_AI_V1_CHAT_COMPLETIONS_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

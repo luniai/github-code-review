@@ -1,6 +1,8 @@
 import { GET_GITHUB_AUTH_TOKEN } from "../constants";
 import { GithubSettings } from "../types";
 
+const GITHUB_GRAPHQL_API_URL = "https://api.github.com/graphql";
+
 function fetchGithubAuthTokenFromBackground(): Promise<
   GithubSettings | undefined
 > {
@@ -35,7 +37,7 @@ export const fetchGithubPRTitleAndDescription = async (variables: {
     const githubSettings = await fetchGithubAuthTokenFromBackground();
     const token = githubSettings?.authToken;
 
-    const response = await fetch("https://api.github.com/graphql", {
+    const response = await fetch(GITHUB_GRAPHQL_API_URL, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
