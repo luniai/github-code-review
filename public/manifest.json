@@ -15,11 +15,15 @@
     "default_title": "Luni AI - Github Code Review"
   },
   "minimum_chrome_version": "116",
-  "host_permissions": ["https://github.com/*", "https://api.github.com/*"],
+  "host_permissions": [
+    "https://github.com/*/pull/*",
+    "https://api.github.com/*",
+    "https://api.openai.com/*"
+  ],
   "content_scripts": [
     {
       "run_at": "document_end",
-      "matches": ["https://github.com/*"],
+      "matches": ["https://github.com/*/pull/*"],
       "exclude_matches": ["https://*/login/*"],
       "js": ["assets/content_script.js"],
       "css": ["content_script.css"]
@@ -28,8 +32,7 @@
   "background": {
     "service_worker": "assets/background.js"
   },
-  "optional_host_permissions": ["*://*/*"],
-  "permissions": ["scripting", "storage", "tabs", "cookies"],
+  "permissions": ["scripting", "storage"],
   "web_accessible_resources": [
     {
       "resources": ["/assets/logo.jpg"],
