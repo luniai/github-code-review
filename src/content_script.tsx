@@ -58,6 +58,7 @@ function parseHtmlToGitDiff(htmlString: string) {
   return diffLines.join("\n");
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 const ReviewContainer = ({ isOpen, diffHtml, file }: ReviewContainerProps) => {
   const githubPrDetails = extractGitHubPRDetails(window.location.href);
 
@@ -124,6 +125,7 @@ const ReviewContainer = ({ isOpen, diffHtml, file }: ReviewContainerProps) => {
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 const AIReviewButton = () => {
   const [fileHeadersLength, setFileHeadersLength] = useState(
     document.querySelectorAll("#files .file .file-header").length || 0
