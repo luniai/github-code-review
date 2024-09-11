@@ -83,7 +83,7 @@ const ReviewContainer = ({ isOpen, diffHtml, file }: ReviewContainerProps) => {
     isError: isAIReviewError,
     isIdle: isAiReviewIdle,
   } = useQuery(
-    [OPEN_AI_REVIEW_QUERY_KEY, file],
+    [OPEN_AI_REVIEW_QUERY_KEY, file, diffHtml.length],
     () =>
       sendOpenAiReview({
         file,
