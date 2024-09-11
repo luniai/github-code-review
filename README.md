@@ -12,6 +12,19 @@ With the current power of AI, teams are able to push code more frequently and fa
 
 This is not, by any means, meant to replace human reviews, it's about leveraging the power of AI to help developers to boost the process of reviewing a code.
 
+## Screenshots
+
+Example of where the individual file review button is located and the AI spotting a typo error that could be easily missed by a reviewer's eyes:
+
+![image](https://github.com/user-attachments/assets/07789268-2f2a-4339-922d-eb256c47ef06)
+
+Settings available when clicking on the extension:
+
+![image](https://github.com/user-attachments/assets/d3376f5e-9464-4943-ab89-2c1c974d0209)
+
+![image](https://github.com/user-attachments/assets/5bd6dfeb-f6f7-4e9b-9b7f-02e2e3df6366)
+
+
 ## Tech Stack
 
 ### React + Typescript
