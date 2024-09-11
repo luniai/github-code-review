@@ -10,7 +10,7 @@ class SettingsDatabase extends Dexie {
   constructor() {
     super("SettingsDatabase");
     this.version(1).stores({
-      openAiSettings: "id, apiKey, model, customPrompt, customPrompt", // Indexed by 'id'
+      openAiSettings: "id, apiKey, model, customPrompt, customPromptRole", // Indexed by 'id'
       githubSettings: "id, authToken", // Indexed by 'id'
     });
 

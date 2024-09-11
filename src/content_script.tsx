@@ -1,7 +1,6 @@
 import logo from "./assets/logo.jpg";
 import { createRoot } from "react-dom/client";
 import { domUpdateWatcher } from "./utils/dom_update_watcher";
-import { createPortal } from "react-dom";
 import { useEffect, useState } from "react";
 import { extractGitHubPRDetails } from "./utils/extract_github_pr_details";
 import { fetchGithubPRTitleAndDescription } from "./fetchers/fetch_github_pr_description";
@@ -11,12 +10,13 @@ import { domChangeWatcher } from "./utils/dom_change_watcher";
 
 const queryClient = new QueryClient();
 
-interface ReviewModalProps {
+interface ReviewContainerProps {
   isOpen: boolean;
-  onClose: () => void;
-  onSubmit: () => void;
+  onClose?: () => void;
+  onSubmit?: () => void;
   diffHtml: string;
   file: string;
+  // reviewContainerElement: HTMLDivElement;
 }
 
 function parseHtmlToGitDiff(htmlString: string) {
@@ -49,13 +49,7 @@ function parseHtmlToGitDiff(htmlString: string) {
   return diffLines.join("\n");
 }
 
-const ReviewModal = ({
-  isOpen,
-  onClose,
-  onSubmit,
-  diffHtml,
-  file,
-}: ReviewModalProps) => {
+const ReviewContainer = ({ isOpen, diffHtml, file }: ReviewContainerProps) => {
   const githubPrDetails = extractGitHubPRDetails(window.location.href);
 
   const {
@@ -74,6 +68,7 @@ const ReviewModal = ({
     data: AIReviewData,
     isLoading: isAIReviewLoading,
     isError: isAIReviewError,
+    isIdle: isAiReviewIdle,
   } = useQuery(
     ["openAiReview", file],
     () =>
@@ -91,64 +86,36 @@ const ReviewModal = ({
 
   if (!isOpen) return null;
 
-  return createPortal(
+  return (
     <div
       style={{
-        position: "fixed",
-        zIndex: 1000,
-        top: 0,
-        left: 0,
-        width: "100%",
-        height: "100%",
-        backgroundColor: "rgba(0,0,0,0.5)",
+        backgroundImage: `url(${chrome.runtime.getURL(logo)})`,
       }}
+      className="luni-ai-github-code-review-container"
     >
-      <div
-        style={{
-          backgroundColor: "white",
-          width: "80%",
-          height: "80%",
-          margin: "10% auto",
-          padding: "20px",
-        }}
-      >
-        <h1>AI Review</h1>
-        <div style={{ height: "80%", overflow: "auto" }}>
-          <p>Analyzing code changes...</p>
-          <pre>{diffHtml}</pre>
-          <p>PR Data:</p>
-          {isLoading && <p>Loading...</p>}
-          {isError && <p>Error fetching PR description</p>}
-          {prReviewData ? (
-            <>
-              <h2>{prReviewData.title}</h2>
-              <pre>{prReviewData.description}</pre>
-            </>
-          ) : null}
-          <p>AI Review:</p>
-          {isAIReviewLoading && <p>Loading...</p>}
-          {isAIReviewError && <p>Error fetching AI review</p>}
-          {AIReviewData ? <pre>{AIReviewData}</pre> : null}
-        </div>
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <button id="ai-review-close-button" onClick={onClose}>
-            Close
-          </button>
-          <button id="ai-review-submit-button" onClick={onSubmit}>
-            Submit
-          </button>
-        </div>
-      </div>
-    </div>,
-    document.body
+      <h2>AI Review</h2>
+      <h3>PR Data:</h3>
+      {isLoading && <p>Loading PR Data...</p>}
+      {isError && <p>Error fetching PR description</p>}
+      {prReviewData ? (
+        <>
+          <h4>{prReviewData.title}</h4>
+          <pre>{prReviewData.description}</pre>
+        </>
+      ) : null}
+      <br />
+      <h3>AI Review:</h3>
+      {isAiReviewIdle && (
+        <p>Waiting for PR Data to load to initiate PR Review</p>
+      )}
+      {isAIReviewLoading && <p>Initiating AI Review...</p>}
+      {isAIReviewError && <p>Error fetching AI review</p>}
+      {AIReviewData ? <pre>{AIReviewData}</pre> : null}
+    </div>
   );
 };
 
 const AIReviewButton = () => {
-  const [isModalOpen, setModalOpen] = useState(false);
-  const [diffHtml, setDiffHtml] = useState("");
-  const [file, setFile] = useState("");
-
   const [fileHeadersLength, setFileHeadersLength] = useState(
     document.querySelectorAll("#files .file .file-header").length || 0
   );
@@ -168,27 +135,7 @@ const AIReviewButton = () => {
     };
   }, []);
 
-  const openModal = (fileIndex: number) => {
-    const fileDiff =
-      document.querySelectorAll(".js-file-content")[fileIndex].innerHTML;
-
-    const parsedDiffHtml = parseHtmlToGitDiff(fileDiff);
-
-    const fileName =
-      document.querySelectorAll(".file-info a")[fileIndex].textContent || "";
-
-    setFile(fileName);
-    setDiffHtml(parsedDiffHtml);
-    setModalOpen(true);
-  };
-  const closeModal = () => setModalOpen(false);
-  const submitModal = () => {
-    alert("Submit");
-    closeModal();
-  };
-
   useEffect(() => {
-    console.log("useEffect!!!");
     const hasAiReviewButton =
       document.getElementsByClassName("ai-review-button");
 
@@ -213,33 +160,55 @@ const AIReviewButton = () => {
           `background-image: url(${chrome.runtime.getURL(logo)});`
         );
         button.setAttribute("data-index", fileIndex.toString());
+        button.setAttribute("data-is-open", "false");
+        fileActions.prepend(button);
+
+        const reviewContainer = document.createElement("div");
+        const parent = fileHeader.parentElement;
+        const fileContent = parent?.querySelector(".js-file-content");
+        reviewContainer.setAttribute("class", "ai-review-container");
+        if (fileContent) {
+          parent?.insertBefore(reviewContainer, fileContent);
+          // setReviewContainerElement(reviewContainer);
+        }
+
         button.onclick = async () => {
           const fileIndex = parseInt(button.getAttribute("data-index") || "0");
-          openModal(fileIndex);
+          const fileDiff =
+            document.querySelectorAll(".js-file-content")[fileIndex].innerHTML;
+
+          const parsedDiffHtml = parseHtmlToGitDiff(fileDiff);
+
+          const fileName =
+            document.querySelectorAll(".file-info a")[fileIndex].textContent ||
+            "";
+
+          const isOpen = button.getAttribute("data-is-open") === "true";
+
+          if (isOpen) {
+            button.setAttribute("data-is-open", "false");
+          } else {
+            button.setAttribute("data-is-open", "true");
+          }
+
+          createRoot(reviewContainer).render(
+            <QueryClientProvider client={queryClient}>
+              <ReviewContainer
+                isOpen={!isOpen}
+                diffHtml={parsedDiffHtml}
+                file={fileName}
+              />
+            </QueryClientProvider>
+          );
         };
-        fileActions.prepend(button);
       }
     }
   }, [fileHeadersLength]);
 
-  return createPortal(
-    <QueryClientProvider client={queryClient}>
-      <ReviewModal
-        isOpen={isModalOpen}
-        onClose={closeModal}
-        onSubmit={submitModal}
-        diffHtml={diffHtml}
-        file={file}
-      />
-    </QueryClientProvider>,
-
-    document.body
-  );
+  return null;
 };
 
 const processGithubPage = async () => {
-  console.log("processGithubPage!!!");
-
   const rootElement = document.createElement("div");
   document.body.appendChild(rootElement);
   createRoot(rootElement).render(<AIReviewButton />);
