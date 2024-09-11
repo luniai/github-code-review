@@ -1,10 +1,15 @@
 {
-  "name": "ai-pr-reviewer",
+  "name": "github-code-review",
   "description": "A Chrome extension for getting AI assistance for pull request reviews in Github",
   "version": "0.0.1",
+  "author": "Paulo Silva",
   "type": "module",
   "engines": {
     "node": ">=20"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/luniai/github-code-review.git"
   },
   "scripts": {
     "dev": "vite",
@@ -13,7 +18,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@types/chrome": "^0.0.269",
     "dexie": "^4.0.8",
     "dexie-react-hooks": "^1.1.7",
     "react": "^18.3.1",
@@ -21,6 +25,7 @@
     "react-query": "^3.39.3"
   },
   "devDependencies": {
+    "@types/chrome": "^0.0.269",
     "@eslint/js": "^9.8.0",
     "@types/node": "^22.2.0",
     "@types/react": "^18.3.3",

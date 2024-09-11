@@ -1,18 +1,25 @@
 {
   "manifest_version": 3,
-  "name": "AI PR Reviewer",
-  "description": "AI PR Reviewer for Github",
+  "name": "Luni AI - Github Code Review",
+  "description": "This is a simple Chrome extension that uses the OpenAI GPT API to generate review comments on a Github pull request page.",
   "version": "1.0",
+  "icons": {
+    "32": "logo-32x32.png",
+    "128": "logo-128x128.png"
+  },
   "action": {
     "default_popup": "index.html",
-    "default_icon": "logo.png"
+    "default_icon": {
+      "32": "logo-32x32.png"
+    },
+    "default_title": "Luni AI - Github Code Review"
   },
   "minimum_chrome_version": "116",
   "host_permissions": ["https://github.com/*", "https://api.github.com/*"],
   "content_scripts": [
     {
       "run_at": "document_end",
-      "matches": ["https://github.com/*", "https://gist.github.com/*"],
+      "matches": ["https://github.com/*"],
       "exclude_matches": ["https://*/login/*"],
       "js": ["assets/content_script.js"],
       "css": ["content_script.css"]
@@ -21,13 +28,12 @@
   "background": {
     "service_worker": "assets/background.js"
   },
-  "optional_permissions": ["*://*/*"],
   "optional_host_permissions": ["*://*/*"],
   "permissions": ["scripting", "storage", "tabs", "cookies"],
   "web_accessible_resources": [
     {
-      "resources": ["/assets/logo.png"],
-      "matches": ["https://github.com/*", "https://gist.github.com/*"]
+      "resources": ["/assets/logo.jpg", "/assets/logo-32x32.png"],
+      "matches": ["https://github.com/*"]
     }
   ]
 }
