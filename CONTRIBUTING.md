@@ -29,7 +29,7 @@ Please use the GitHub UI to fork this repository (_read more about [Forking a re
 ### Install
 
 ```bash
-cd ai-pr-reviewer
+cd github-code-review
 npm install
 ```
 
@@ -58,7 +58,7 @@ Try to use the [Conventional Commits](https://conventionalcommits.org/) naming c
 
 > **Tip:** running `git commit` will open an interactive prompt in your terminal. Follow the prompt to compose a valid commit message.
 
-Once you have pushed the changes to your remote feature branch, [create a pull request](https://github.com/open-draft/ai-pr-reviewer/compare) on GitHub. Undergo the process of code review, where the maintainers of the library will help you get the changes from good to great, and enjoy your implementation merged to the default branch.
+Once you have pushed the changes to your remote feature branch, [create a pull request](https://github.com/open-draft/github-code-review/compare) on GitHub. Undergo the process of code review, where the maintainers of the library will help you get the changes from good to great, and enjoy your implementation merged to the default branch.
 
 > Please be respectful when requesting and going through the code review. Everyone on the team is interested in merging quality and well tested code, and we're hopeful that you have the same goal. It may take some time and iterations to get it right, and we will assist you throughout the process.
 
