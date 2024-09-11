@@ -2,10 +2,13 @@
   border: 0;
   font-size: 0;
   text-indent: -9999px;
-  background-size: 18px;
-  width: 32px;
-  height: 32px;
   background-position: center;
   background-repeat: no-repeat;
   background-color: transparent;
+  background-size: 24px;
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+  border-radius: 4px;
+  margin-top: 2px;
 }

@@ -1,4 +1,4 @@
-import logo from "./assets/logo-32x32.png";
+import logo from "./assets/logo.jpg";
 import { createRoot } from "react-dom/client";
 import { domUpdateWatcher } from "./utils/dom_update_watcher";
 import { createPortal } from "react-dom";
