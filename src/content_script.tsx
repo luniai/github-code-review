@@ -8,7 +8,16 @@ import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import { sendOpenAiReview } from "./fetchers/send_open_ai_review";
 import { domChangeWatcher } from "./utils/dom_change_watcher";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: false,
+      cacheTime: Infinity,
+      staleTime: Infinity,
+    },
+  },
+});
 
 interface ReviewContainerProps {
   isOpen: boolean;
