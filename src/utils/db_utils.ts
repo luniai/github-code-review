@@ -1,17 +1,17 @@
 import { db } from "../db";
-import { GithubSettings, OpenAiSettings } from "../types";
+import { GithubSettings, GenerativeAiSettings } from "../types";
 
 // OpenAI Settings CRUD operations
-export const saveOpenAiSettings = async (
-  settings: OpenAiSettings
+export const saveGenerativeAiSettings = async (
+  settings: GenerativeAiSettings
 ): Promise<void> => {
-  await db.openAiSettings.put(settings);
+  await db.generativeAiSettings.put(settings);
 };
 
-export const getOpenAiSettings = async (): Promise<
-  OpenAiSettings | undefined
+export const getGenerativeAiSettings = async (): Promise<
+  GenerativeAiSettings | undefined
 > => {
-  return await db.openAiSettings.get("default");
+  return await db.generativeAiSettings.get("default");
 };
 
 // GitHub Settings CRUD operations

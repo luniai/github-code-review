@@ -5,8 +5,8 @@ import { useEffect, useState } from "react";
 import { extractGitHubPRDetails } from "./utils/extract_github_pr_details";
 import { fetchGithubPRTitleAndDescription } from "./fetchers/fetch_github_pr_description";
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
-import { sendOpenAiReview } from "./fetchers/send_open_ai_review";
 import { domChangeWatcher } from "./utils/dom_change_watcher";
+import { sendAiReview } from "./fetchers/send_ai_review";
 
 const GITHUB_PR_DETAILS_QUERY_KEY = "githubPrDetails";
 const OPEN_AI_REVIEW_QUERY_KEY = "openAiReview";
@@ -85,7 +85,7 @@ const ReviewContainer = ({ isOpen, diffHtml, file }: ReviewContainerProps) => {
   } = useQuery(
     [OPEN_AI_REVIEW_QUERY_KEY, file, diffHtml.length],
     () =>
-      sendOpenAiReview({
+      sendAiReview({
         file,
         codeDiff: diffHtml,
         prDescription: prReviewData?.description,

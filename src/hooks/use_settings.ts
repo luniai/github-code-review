@@ -2,33 +2,33 @@
 
 import { useState, useEffect } from "react";
 import {
-  getOpenAiSettings,
-  saveOpenAiSettings,
+  getGenerativeAiSettings,
+  saveGenerativeAiSettings,
   getGithubAuthToken,
   saveGithubAuthToken,
 } from "../utils/db_utils";
-import { OpenAiSettings } from "../types";
-import { defaultOpenAiSettings } from "../constants";
+import { GenerativeAiSettings } from "../types";
+import { defaultGenerativeAiSettings } from "../constants";
 
-export const useOpenAiSettings = (): [
-  OpenAiSettings,
-  (newSettings: OpenAiSettings) => Promise<void>
+export const useGenerativeAiSettings = (): [
+  GenerativeAiSettings,
+  (newSettings: GenerativeAiSettings) => Promise<void>
 ] => {
-  const [settings, setSettings] = useState<OpenAiSettings>(
-    defaultOpenAiSettings
+  const [settings, setSettings] = useState<GenerativeAiSettings>(
+    defaultGenerativeAiSettings
   );
 
   useEffect(() => {
     const fetchSettings = async () => {
-      const data = await getOpenAiSettings();
+      const data = await getGenerativeAiSettings();
       if (data) setSettings(data);
     };
 
     fetchSettings();
   }, []);
 
-  const updateSettings = async (newSettings: OpenAiSettings) => {
-    await saveOpenAiSettings(newSettings);
+  const updateSettings = async (newSettings: GenerativeAiSettings) => {
+    await saveGenerativeAiSettings(newSettings);
     setSettings(newSettings);
   };
 

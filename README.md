@@ -1,6 +1,14 @@
 # GitHub Code Review
 
-This is a simple Chrome extension that uses the [OpenAI GPT](https://beta.openai.com/docs/) API to generate review comments on a Github pull request page.
+This is a simple Chrome extension that uses the power of Generative AI to generate insightful reviews on a Github pull request page.
+
+## Requirements
+
+The extension uses [OpenAI](https://beta.openai.com/docs/) to generate review comments. The AI model is trained on a large dataset of code reviews and can generate insightful comments on a pull request.
+
+You will need an API key from OpenAI to use this extension. Also a free alternative is to use [Groq](https://groq.com/) API which is also supported by the extension.
+
+You will also need to have a GitHub API Key to use the extension, as it uses the GitHub API to fetch the pull request data. You can get a Github API Key for free [here](https://github.com/settings/tokens). The only permission you need on the token is `repo`.
 
 ## How to install
 
@@ -24,10 +32,11 @@ Example of where the individual file review button is located and the AI spottin
 
 Settings available when clicking on the extension:
 
-![image](https://github.com/user-attachments/assets/d3376f5e-9464-4943-ab89-2c1c974d0209)
+![image](https://github.com/user-attachments/assets/c1adc4ed-ef79-4f0c-a7af-0b77ca70b350)
+
+![image](https://github.com/user-attachments/assets/d8251ab5-bfe5-407f-be19-219fdff515a5)
 
 ![image](https://github.com/user-attachments/assets/5bd6dfeb-f6f7-4e9b-9b7f-02e2e3df6366)
-
 
 ## Tech Stack
 

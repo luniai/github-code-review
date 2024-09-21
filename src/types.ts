@@ -1,9 +1,13 @@
-export interface OpenAiSettings {
+export type GenerativeAiConnector = "open-ai" | "groq";
+export interface GenerativeAiSettings {
   id: string; // 'default' or unique identifier
-  apiKey: string;
-  model: string;
+  openAiApiKey: string;
+  groqApiKey: string;
+  defaultOpenAiModel: string;
+  defaultGroqModel: string;
   customPrompt: string;
   customPromptRole: string;
+  defaultGenerativeAiConnector: GenerativeAiConnector;
 }
 
 export interface GithubSettings {
