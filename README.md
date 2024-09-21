@@ -2,6 +2,10 @@
 
 This is a simple Chrome extension that uses the [OpenAI GPT](https://beta.openai.com/docs/) API to generate review comments on a Github pull request page.
 
+## How to install
+
+As the extension is not available on Chrome store yet, please follow the installation, build and test steps of the [CONTRIBUTING.md](CONTRIBUTING.md) file to install the extension locally on your machine.
+
 ## There's a ton of Chrome extensions that do this, why create another one?
 
 Most of the Chrome extensions that use the OpenAI API to generate review comments are paid or have a limit on the number of requests you can make. This extension is open-source and free to use. You can host your own instance of the extension and use it without any limitations. Also you can customize the prompts and responses as per your needs.
