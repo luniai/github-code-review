@@ -1,71 +1,87 @@
 import React, { useState, useEffect } from "react";
-import { useOpenAiSettings, useGithubAuthToken } from "./hooks/use_settings";
-import { defaultOpenAiSettings } from "./constants";
+import {
+  useGenerativeAiSettings,
+  useGithubAuthToken,
+} from "./hooks/use_settings";
+import { defaultGenerativeAiSettings } from "./constants";
+import { GenerativeAiConnector } from "./types";
 
 const SettingsComponent: React.FC = () => {
-  // Hooks to manage state for OpenAI and GitHub settings
-  const [openAiSettings, updateOpenAiSettings] = useOpenAiSettings();
+  const [generativeAiSettings, updateGenerativeAiSettings] =
+    useGenerativeAiSettings();
   const [githubAuthToken, updateGithubAuthToken] = useGithubAuthToken();
 
   // Local state for form inputs
-  const [apiKey, setApiKey] = useState<string>(openAiSettings.apiKey);
-  const [model, setModel] = useState<string>(openAiSettings.model);
-  const [customPromptRole, setCustomPromptRole] = useState<string>(
-    openAiSettings.customPromptRole
+  const [defaultGenerativeAiConnector, setDefaultGenerativeAiConnector] =
+    useState<GenerativeAiConnector>(
+      generativeAiSettings.defaultGenerativeAiConnector
+    ); // Default to Open AI
+  const [openAiApiKey, setOpenAiApiKey] = useState<string>(
+    generativeAiSettings.openAiApiKey
   );
-
+  const [groqApiKey, setGroqApiKey] = useState<string>(
+    generativeAiSettings.groqApiKey
+  );
+  const [defaultOpenAiModel, setDefaultOpenAiModel] = useState<string>(
+    generativeAiSettings.defaultOpenAiModel
+  );
+  const [defaultGroqModel, setDefaultGroqModel] = useState<string>(
+    generativeAiSettings.defaultGroqModel
+  );
+  const [customPromptRole, setCustomPromptRole] = useState<string>(
+    generativeAiSettings.customPromptRole
+  );
   const [customPrompt, setCustomPrompt] = useState<string>(
-    openAiSettings.customPrompt
+    generativeAiSettings.customPrompt
   );
   const [authToken, setAuthToken] = useState<string>(githubAuthToken);
-
   const [showGithubTokenSuccess, setShowGithubTokenSuccess] = useState(false);
-  const [showOpenAiSettingsSuccess, setShowOpenAiSettingsSuccess] =
-    useState(false);
+  const [showGenerativeAiSuccess, setShowGenerativeAiSuccess] = useState(false);
 
-  // Synchronize input fields with the fetched settings
   useEffect(() => {
-    setApiKey(openAiSettings.apiKey);
-    setModel(openAiSettings.model);
-    setCustomPrompt(openAiSettings.customPrompt);
-    setCustomPromptRole(openAiSettings.customPromptRole);
-  }, [openAiSettings]);
+    setOpenAiApiKey(generativeAiSettings.openAiApiKey);
+    setGroqApiKey(generativeAiSettings.groqApiKey);
+    setCustomPrompt(generativeAiSettings.customPrompt);
+    setCustomPromptRole(generativeAiSettings.customPromptRole);
+    setDefaultOpenAiModel(generativeAiSettings.defaultOpenAiModel);
+    setDefaultGroqModel(generativeAiSettings.defaultGroqModel);
+  }, [generativeAiSettings]);
 
   useEffect(() => {
     setAuthToken(githubAuthToken);
   }, [githubAuthToken]);
 
-  // hide the success message after 3 seconds
   useEffect(() => {
     if (showGithubTokenSuccess) {
       const timeout = setTimeout(() => {
         setShowGithubTokenSuccess(false);
       }, 3000);
-
       return () => clearTimeout(timeout);
     }
   }, [showGithubTokenSuccess]);
 
-  // hide the success message after 3 seconds
   useEffect(() => {
-    if (showOpenAiSettingsSuccess) {
+    if (showGenerativeAiSuccess) {
       const timeout = setTimeout(() => {
-        setShowOpenAiSettingsSuccess(false);
+        setShowGenerativeAiSuccess(false);
       }, 3000);
-
       return () => clearTimeout(timeout);
     }
-  }, [showOpenAiSettingsSuccess]);
+  }, [showGenerativeAiSuccess]);
 
-  const handleSaveOpenAiSettings = () => {
-    updateOpenAiSettings({
+  const handleSaveSettings = () => {
+    updateGenerativeAiSettings({
       id: "default",
-      apiKey,
-      model,
+      openAiApiKey,
+      groqApiKey,
       customPrompt,
       customPromptRole,
+      defaultOpenAiModel,
+      defaultGroqModel,
+      defaultGenerativeAiConnector:
+        defaultGenerativeAiConnector as GenerativeAiConnector,
     });
-    setShowOpenAiSettingsSuccess(true);
+    setShowGenerativeAiSuccess(true);
   };
 
   const handleSaveGithubToken = () => {
@@ -74,41 +90,94 @@ const SettingsComponent: React.FC = () => {
   };
 
   const handleModelReset = () => {
-    setModel(defaultOpenAiSettings.model);
+    setDefaultOpenAiModel(defaultGenerativeAiSettings.defaultOpenAiModel);
+    setDefaultGroqModel(defaultGenerativeAiSettings.defaultGroqModel);
   };
+
   const handlePromptRoleReset = () => {
-    setCustomPromptRole(defaultOpenAiSettings.customPromptRole);
+    setCustomPromptRole(defaultGenerativeAiSettings.customPromptRole);
   };
+
   const handlePromptReset = () => {
-    setCustomPrompt(defaultOpenAiSettings.customPrompt);
+    setCustomPrompt(defaultGenerativeAiSettings.customPrompt);
   };
 
   return (
     <div>
-      <h2>OpenAI Settings</h2>
+      <h2>Generative AI Connector Settings</h2>
       <fieldset>
         <label>
-          API Key:
+          Select Connector:
           <br />
-          <input
-            type="text"
-            value={apiKey}
-            onChange={(e) => setApiKey(e.target.value)}
-          />
+          <select
+            value={defaultGenerativeAiConnector}
+            onChange={(e) =>
+              setDefaultGenerativeAiConnector(
+                e.target.value as GenerativeAiConnector
+              )
+            }
+          >
+            <option value="open-ai">Open AI</option>
+            <option value="groq">Groq</option>
+          </select>
         </label>
       </fieldset>
-      <fieldset>
-        <label>
-          Model:
-          <br />
-          <input
-            type="text"
-            value={model}
-            onChange={(e) => setModel(e.target.value)}
-          />
-        </label>
-        <button onClick={handleModelReset}>Reset to default</button>
-      </fieldset>
+
+      {defaultGenerativeAiConnector === "open-ai" && (
+        <>
+          <fieldset>
+            <label>
+              Open AI API Key:
+              <br />
+              <input
+                type="text"
+                value={openAiApiKey}
+                onChange={(e) => setOpenAiApiKey(e.target.value)}
+              />
+            </label>
+          </fieldset>
+          <fieldset>
+            <label>
+              Model:
+              <br />
+              <input
+                type="text"
+                value={defaultOpenAiModel}
+                onChange={(e) => setDefaultOpenAiModel(e.target.value)}
+              />
+            </label>
+            <button onClick={handleModelReset}>Reset to default</button>
+          </fieldset>
+        </>
+      )}
+
+      {defaultGenerativeAiConnector === "groq" && (
+        <>
+          <fieldset>
+            <label>
+              Groq API Key:
+              <br />
+              <input
+                type="text"
+                value={groqApiKey}
+                onChange={(e) => setGroqApiKey(e.target.value)}
+              />
+            </label>
+          </fieldset>
+          <fieldset>
+            <label>
+              Model:
+              <br />
+              <input
+                type="text"
+                value={defaultGroqModel}
+                onChange={(e) => setDefaultGroqModel(e.target.value)}
+              />
+            </label>
+            <button onClick={handleModelReset}>Reset to default</button>
+          </fieldset>
+        </>
+      )}
       <fieldset>
         <label>
           Custom Prompt Role:
@@ -121,6 +190,7 @@ const SettingsComponent: React.FC = () => {
         </label>
         <button onClick={handlePromptRoleReset}>Reset to default</button>
       </fieldset>
+
       <fieldset>
         <label>
           Custom Prompt:
@@ -133,10 +203,9 @@ const SettingsComponent: React.FC = () => {
         </label>
         <button onClick={handlePromptReset}>Reset to default</button>
       </fieldset>
-      {showOpenAiSettingsSuccess && (
-        <div>OpenAI settings saved successfully!</div>
-      )}
-      <button onClick={handleSaveOpenAiSettings}>Save OpenAI Settings</button>
+
+      {showGenerativeAiSuccess && <div>Settings saved successfully!</div>}
+      <button onClick={handleSaveSettings}>Save Settings</button>
 
       <h2>GitHub Settings</h2>
       <fieldset>
