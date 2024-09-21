@@ -23,7 +23,7 @@
   "content_scripts": [
     {
       "run_at": "document_end",
-      "matches": ["https://github.com/*/pull/*"],
+      "matches": ["https://github.com/*"],
       "exclude_matches": ["https://*/login/*"],
       "js": ["assets/content_script.js"],
       "css": ["content_script.css"]
