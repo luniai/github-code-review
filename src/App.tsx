@@ -138,15 +138,31 @@ const SettingsComponent: React.FC = () => {
           </fieldset>
           <fieldset>
             <label>
-              Model:
+              Select Model:
               <br />
               <input
                 type="text"
-                value={defaultOpenAiModel}
                 onChange={(e) => setDefaultOpenAiModel(e.target.value)}
+                list="modelOptions"
               />
             </label>
+            <datalist id="modelOptions">
+              <option value="gpt-4o" />
+              <option value="gpt-4o-mini" />
+              <option value="gpt-4o-turbo" />
+              <option value="gpt-4" />
+              <option value="gpt-3.5-turbo" />            
+            </datalist>
             <button onClick={handleModelReset}>Reset to default</button>
+            <p>Here are some available ChatGPT model options:</p>
+            <p>
+            <b>gpt-4o </b>, 
+            <b>gpt-4o-mini </b>, 
+            <b>gpt-4-turbo </b>, 
+            <b>gpt-4 </b>, and <b>gpt-3.5-turbo</b>
+            </p>
+          
+           <p>For a complete list of models, please check the <a href="https://platform.openai.com/docs/models" target="_blank">ChatGPT models page</a>.</p>
           </fieldset>
         </>
       )}
