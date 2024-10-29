@@ -24,6 +24,8 @@ export const customPrompt = `## GitHub PR Title
 export const customPromptRole =
   "You are a senior software engineer providing in-depth code review feedback for a Pull Request in GitHub. Your goal is to ensure that the code is readable, maintainable, and aligns with the original proposal and coding standards.";
 
+export const CHATGPT_MODELS_URL = "https://platform.openai.com/docs/models";
+
 export const defaultGenerativeAiSettings: GenerativeAiSettings = {
   id: "default",
   openAiApiKey: "",
