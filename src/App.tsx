@@ -142,6 +142,7 @@ const SettingsComponent: React.FC = () => {
               <br />
               <input
                 type="text"
+                value={defaultOpenAiModel}
                 onChange={(e) => setDefaultOpenAiModel(e.target.value)}
                 list="modelOptions"
               />
