@@ -3,7 +3,7 @@ import {
   useGenerativeAiSettings,
   useGithubAuthToken,
 } from "./hooks/use_settings";
-import { defaultGenerativeAiSettings, CHATGPT_MODELS_URL } from "./constants";
+import { defaultGenerativeAiSettings, availableModels, CHATGPT_MODELS_URL } from "./constants";
 import { GenerativeAiConnector } from "./types";
 
 const SettingsComponent: React.FC = () => {
@@ -157,10 +157,9 @@ const SettingsComponent: React.FC = () => {
             <button onClick={handleModelReset}>Reset to default</button>
             <p>Here are some available ChatGPT model options:</p>
             <p>
-              <b>gpt-4o </b>, 
-              <b>gpt-4o-mini </b>, 
-              <b>gpt-4-turbo </b>, 
-              <b>gpt-4 </b>, and <b>gpt-3.5-turbo</b>
+              <b>
+              {availableModels.slice(0, -1).join(", ")} and {availableModels[availableModels.length - 1]}
+              </b>
             </p>
             <p>For a complete list of models, please check the <a href={CHATGPT_MODELS_URL} target="_blank" rel="noopener noreferrer">ChatGPT models page</a>.</p>
           </fieldset>

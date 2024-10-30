@@ -26,6 +26,14 @@ export const customPromptRole =
 
 export const CHATGPT_MODELS_URL = "https://platform.openai.com/docs/models";
 
+export const availableModels = [
+  "gpt-4o",
+  "gpt-4o-mini",
+  "gpt-4o-turbo",
+  "gpt-4",
+  "gpt-3.5-turbo",
+]; 
+
 export const defaultGenerativeAiSettings: GenerativeAiSettings = {
   id: "default",
   openAiApiKey: "",
