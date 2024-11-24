@@ -5,6 +5,15 @@ import {
 } from "./hooks/use_settings";
 import { defaultGenerativeAiSettings, availableModels, CHATGPT_MODELS_URL } from "./constants";
 import { GenerativeAiConnector } from "./types";
+import './App.css'
+import {
+  SelectContent,
+  SelectItem,
+  SelectLabel,
+  SelectRoot,
+  SelectTrigger,
+  SelectValueText,
+} from "@/components/ui/select"
 
 const SettingsComponent: React.FC = () => {
   const [generativeAiSettings, updateGenerativeAiSettings] =
@@ -137,7 +146,7 @@ const SettingsComponent: React.FC = () => {
             </label>
           </fieldset>
           <fieldset>
-            <label>
+            {/* <label>
               Select Model:
               <br />
               <input
@@ -153,14 +162,32 @@ const SettingsComponent: React.FC = () => {
               <option value="gpt-4o-turbo" />
               <option value="gpt-4" />
               <option value="gpt-3.5-turbo" />            
-            </datalist>
+            </datalist> */}
+            <SelectRoot 
+            collection={availableModels}
+            defaultValue={["gpt-4o"]}
+            size="md"
+            width="320px"
+            >
+              <SelectLabel>Select Model:</SelectLabel>
+              <SelectTrigger>
+                <SelectValueText placeholder="Select model" />
+              </SelectTrigger>
+              <SelectContent>
+                {availableModels.items.map((model) => (
+                  <SelectItem className="cursor" item={model} key={model.value} _hover={{ backgroundColor: 'gray.100' }}>
+                    {model.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </SelectRoot>
             <button onClick={handleModelReset}>Reset to default</button>
             <p>Here are some available ChatGPT model options:</p>
-            <p>
+            {/* <p>
               <b>
               {availableModels.slice(0, -1).join(", ")} and {availableModels[availableModels.length - 1]}
               </b>
-            </p>
+            </p> */}
             <p>For a complete list of models, please check the <a href={CHATGPT_MODELS_URL} target="_blank" rel="noopener noreferrer">ChatGPT models page</a>.</p>
           </fieldset>
         </>
