@@ -7,6 +7,11 @@ import { fileURLToPath } from "url";
  */
 export default defineConfig({
   plugins: [react()],
+  resolve: {
+  alias: {
+    '@': '/src',
+  },
+},
   build: {
     // Minify was causing extension error
     minify: false,
