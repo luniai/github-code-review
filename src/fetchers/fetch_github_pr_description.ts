@@ -37,6 +37,10 @@ export const fetchGithubPRTitleAndDescription = async (variables: {
     const githubSettings = await fetchGithubAuthTokenFromBackground();
     const token = githubSettings?.authToken;
 
+    if (!token) {
+      throw new Error("GitHub token not configured");
+    }
+
     const response = await fetch(GITHUB_GRAPHQL_API_URL, {
       method: "POST",
       headers: {
@@ -61,6 +65,6 @@ export const fetchGithubPRTitleAndDescription = async (variables: {
     };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    throw `Error fetching PR description: ${error.message}`;
+    throw new Error(`Error fetching PR description: ${error.message}`);
   }
 };
