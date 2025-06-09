@@ -15,7 +15,8 @@
     "dev": "vite",
     "build": "tsc -b && vite build && vite build --config vite.config.content_script.ts && vite build --config vite.config.background.ts",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest run"
   },
   "dependencies": {
     "dexie": "^4.0.8",
@@ -37,6 +38,7 @@
     "globals": "^15.9.0",
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.0.0",
-    "vite": "^5.4.0"
+    "vite": "^5.4.0",
+    "vitest": "^1.5.0"
   }
 }
