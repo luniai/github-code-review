@@ -56,13 +56,13 @@ GPT is a state-of-the-art language model developed by OpenAI. It is the third it
 
 Source: [docs](https://beta.openai.com/docs/)
 
-### IndexDB
+### IndexedDB
 
 IndexedDB is a low-level API for client-side storage of significant amounts of structured data, including files/blobs. This API uses indexes to enable high-performance searches of this data. While Web Storage is useful for storing smaller amounts of data, it is less useful for storing larger amounts of structured data.
 
 Source: [docs](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API)
 
-As we want to store all the prompts and apis responses in the browser, we are using IndexDB rather than local storage or session storage
+As we want to store all the prompts and apis responses in the browser, we are using IndexedDB rather than local storage or session storage
 
 #### Dexie
 
