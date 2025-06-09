@@ -224,9 +224,13 @@ const AIReviewButton = () => {
 };
 
 // Function to process the GitHub Pull Request page, and render the AIReviewButton component
+let rootElement: HTMLDivElement | null = null;
 const processGithubPullRequestPage = async () => {
-  const rootElement = document.createElement("div");
-  document.body.appendChild(rootElement);
+  if (!rootElement || !document.body.contains(rootElement)) {
+    rootElement = document.createElement("div");
+    document.body.appendChild(rootElement);
+  }
+
   createRoot(rootElement).render(<AIReviewButton />);
 
   /* Add a watcher to detect changes in the DOM, and re-render the AIReviewButton component if it's not present */
