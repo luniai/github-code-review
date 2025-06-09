@@ -4,7 +4,7 @@ import { defaultGenerativeAiSettings } from "./constants";
 
 // Define the Dexie database with TypeScript
 class SettingsDatabase extends Dexie {
-  generativeAiSettings!: Table<GenerativeAiSettings, string>; // Table for OpenAI settings
+  generativeAiSettings!: Table<GenerativeAiSettings, string>; // Table for generative AI settings (OpenAI/Groq)
   githubSettings!: Table<GithubSettings, string>; // Table for GitHub settings
 
   constructor() {
