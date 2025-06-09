@@ -35,6 +35,20 @@ npm install
 
 Please use the node version specified in the `.nvmrc` file.
 
+### Development
+
+Start the dev server with Vite:
+
+```bash
+npm run dev
+```
+
+Before committing run the linter to ensure code style:
+
+```bash
+npm run lint
+```
+
 ## Git workflow
 
 ```bash

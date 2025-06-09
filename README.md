@@ -14,6 +14,31 @@ You will also need to have a GitHub API Key to use the extension, as it uses the
 
 As the extension is not available on Chrome store yet, please follow the installation, build and test steps of the [CONTRIBUTING.md](CONTRIBUTING.md) file to install the extension locally on your machine.
 
+## Project structure
+
+The extension is split into a few key folders:
+
+```
+public/           # Manifest and static assets
+src/              # Main TypeScript/React code
+├── background.ts # Background service worker
+├── content_script.tsx
+├── fetchers/     # OpenAI/Groq helpers
+├── hooks/        # React hooks for IndexedDB
+└── utils/
+```
+
+Those files are bundled using Vite when running `npm run build`.
+
+### Key modules
+
+- **background.ts** – exposes stored settings via `chrome.runtime.onMessage`.
+- **content_script.tsx** – injects the review UI on PR pages and calls the AI services.
+- **db.ts** and **db_utils.ts** – configure and access IndexedDB tables for settings.
+- **send_open_ai_review.ts** / **send_groq_review.ts** – send prompts to the chosen AI provider.
+
+Check these modules when you want to extend the extension's behaviour.
+
 ## There's a ton of Chrome extensions that do this, why create another one?
 
 Most of the Chrome extensions that use the OpenAI API to generate review comments are paid or have a limit on the number of requests you can make. This extension is open-source and free to use. You can host your own instance of the extension and use it without any limitations. Also you can customize the prompts and responses as per your needs.
@@ -75,6 +100,12 @@ Source: [docs](https://dexie.org/)
 Vite is a build tool that aims to provide a faster and leaner development experience for modern web projects.
 
 Source: [docs](https://vitejs.dev/)
+
+## Important things to know
+
+- You will need both a GitHub token and an API key for either OpenAI or Groq.
+- Use the node version specified in `.nvmrc` (currently v20.15.1).
+- Run `npm run dev` to start Vite in development mode and `npm run build` to generate the production bundle.
 
 ## Contributing
 
