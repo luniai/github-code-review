@@ -32,7 +32,9 @@ export const availableModels = [
   "gpt-4o-turbo",
   "gpt-4",
   "gpt-3.5-turbo",
-]; 
+];
+
+export const availableGroqModels = ["llama-3.1-70b-versatile", "llama3-8b"];
 
 export const defaultGenerativeAiSettings: GenerativeAiSettings = {
   id: "default",
