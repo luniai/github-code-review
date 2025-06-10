@@ -6,6 +6,7 @@ import {
 import {
   defaultGenerativeAiSettings,
   availableModels,
+  availableGroqModels,
   CHATGPT_MODELS_URL,
 } from "./constants";
 import { GenerativeAiConnector } from "./types";
@@ -130,7 +131,7 @@ const SettingsComponent: React.FC = () => {
     }
   }, [showGenerativeAiSuccess]);
 
-  const handleSaveSettings = () => {
+  const handleSaveAll = () => {
     updateGenerativeAiSettings({
       id: "default",
       openAiApiKey,
@@ -142,12 +143,19 @@ const SettingsComponent: React.FC = () => {
       defaultGenerativeAiConnector:
         defaultGenerativeAiConnector as GenerativeAiConnector,
     });
+    updateGithubAuthToken(authToken);
+    setShowGithubTokenSuccess(true);
     setShowGenerativeAiSuccess(true);
   };
 
-  const handleSaveGithubToken = () => {
-    updateGithubAuthToken(authToken);
-    setShowGithubTokenSuccess(true);
+  const handleCancel = () => {
+    setOpenAiApiKey(generativeAiSettings.openAiApiKey);
+    setGroqApiKey(generativeAiSettings.groqApiKey);
+    setCustomPrompt(generativeAiSettings.customPrompt);
+    setCustomPromptRole(generativeAiSettings.customPromptRole);
+    setDefaultOpenAiModel(generativeAiSettings.defaultOpenAiModel);
+    setDefaultGroqModel(generativeAiSettings.defaultGroqModel);
+    setAuthToken(githubAuthToken);
   };
 
   const handleModelReset = () => {
@@ -165,7 +173,10 @@ const SettingsComponent: React.FC = () => {
 
   return (
     <div>
-      <h2>Generative AI Connector Settings</h2>
+      <h2>
+        <span role="img" aria-label="lightning">⚡</span> Generative AI Connector
+        Settings
+      </h2>
       <fieldset>
         <label>
           Select Connector:
@@ -211,21 +222,23 @@ const SettingsComponent: React.FC = () => {
             <label>
               Select Model:
               <br />
-              <input
-                type="text"
+              <select
                 value={defaultOpenAiModel}
                 onChange={(e) => setDefaultOpenAiModel(e.target.value)}
-                list="modelOptions"
-              />
+              >
+                {availableModels.map((m) => (
+                  <option key={m} value={m}>
+                    {m}
+                  </option>
+                ))}
+              </select>
             </label>
-            <datalist id="modelOptions">
-              <option value="gpt-4o" />
-              <option value="gpt-4o-mini" />
-              <option value="gpt-4o-turbo" />
-              <option value="gpt-4" />
-              <option value="gpt-3.5-turbo" />
-            </datalist>
-            <button onClick={handleModelReset}>Reset to default</button>
+            <button
+              disabled={defaultOpenAiModel === defaultGenerativeAiSettings.defaultOpenAiModel}
+              onClick={handleModelReset}
+            >
+              ↺ Reset to default
+            </button>
             <p>Here are some available ChatGPT model options:</p>
             <p>
               <b>
@@ -275,13 +288,23 @@ const SettingsComponent: React.FC = () => {
             <label>
               Model:
               <br />
-              <input
-                type="text"
+              <select
                 value={defaultGroqModel}
                 onChange={(e) => setDefaultGroqModel(e.target.value)}
-              />
+              >
+                {availableGroqModels.map((m) => (
+                  <option key={m} value={m}>
+                    {m}
+                  </option>
+                ))}
+              </select>
             </label>
-            <button onClick={handleModelReset}>Reset to default</button>
+            <button
+              disabled={defaultGroqModel === defaultGenerativeAiSettings.defaultGroqModel}
+              onClick={handleModelReset}
+            >
+              ↺ Reset to default
+            </button>
           </fieldset>
         </>
       )}
@@ -312,9 +335,10 @@ const SettingsComponent: React.FC = () => {
       </fieldset>
 
       {showGenerativeAiSuccess && <div>Settings saved successfully!</div>}
-      <button onClick={handleSaveSettings}>Save Settings</button>
 
-      <h2>GitHub Settings</h2>
+      <h2>
+        <span role="img" aria-label="octopus">🐙</span> GitHub Settings
+      </h2>
       <fieldset>
         <label>
           Auth Token:
@@ -326,7 +350,8 @@ const SettingsComponent: React.FC = () => {
         </label>
       </fieldset>
       {showGithubTokenSuccess && <div>GitHub token saved successfully!</div>}
-      <button onClick={handleSaveGithubToken}>Save GitHub Token</button>
+      <button onClick={handleSaveAll}>Save Settings</button>
+      <button onClick={handleCancel}>Cancel</button>
     </div>
   );
 };
