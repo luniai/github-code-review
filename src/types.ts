@@ -14,3 +14,8 @@ export interface GithubSettings {
   id: string; // 'default' or unique identifier
   authToken: string;
 }
+
+export interface AIMessage {
+  role: "system" | "user" | "assistant";
+  content: string;
+}

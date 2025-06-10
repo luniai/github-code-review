@@ -2,7 +2,7 @@ import {
   defaultGenerativeAiSettings,
   GET_GENERATIVE_AI_SETTINGS,
 } from "../constants";
-import { GenerativeAiSettings } from "../types";
+import { GenerativeAiSettings, AIMessage } from "../types";
 
 const GROQ_V1_CHAT_COMPLETIONS_URL =
   "https://api.groq.com/openai/v1/chat/completions";
@@ -30,12 +30,14 @@ export const sendGroqReview = async ({
   prDescription,
   repository,
   prTitle,
+  messages = [],
 }: {
   file: string;
   codeDiff: string;
   prDescription: string;
   repository: string;
   prTitle: string;
+  messages?: AIMessage[];
 }) => {
   // Fetch API key from background script via IndexedDB
   const generativeAiSettings = await fetchGenerativeAiSettingsFromBackground();
@@ -60,7 +62,7 @@ export const sendGroqReview = async ({
       .replace("{{codeDiff}}", codeDiff);
   };
 
-  const messages = [
+  const baseMessages: AIMessage[] = [
     {
       role: "system",
       content:
@@ -73,6 +75,8 @@ export const sendGroqReview = async ({
     },
   ];
 
+  const allMessages = baseMessages.concat(messages);
+
   const response = await fetch(GROQ_V1_CHAT_COMPLETIONS_URL, {
     method: "POST",
     headers: {
@@ -81,7 +85,7 @@ export const sendGroqReview = async ({
     },
     body: JSON.stringify({
       model: model || defaultGenerativeAiSettings?.defaultGroqModel,
-      messages: messages,
+      messages: allMessages,
       max_tokens: 2500,
       temperature: 0.3, // Adjusted for more focused and deterministic output
     }),
