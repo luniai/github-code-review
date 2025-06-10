@@ -134,8 +134,8 @@ const ReviewContainer = ({ isOpen, diffHtml, file }: ReviewContainerProps) => {
       )}
       {isAIReviewLoading && <p>Initiating AI Review...</p>}
       {isAIReviewError && <p>Error fetching AI review</p>}
-      {messages.map((m, idx) => (
-        <pre key={idx}>{m.content}</pre>
+      {messages.map((m) => (
+        <pre key={m.id}>{m.content}</pre>
       ))}
       {AIReviewData && (
         <div>
