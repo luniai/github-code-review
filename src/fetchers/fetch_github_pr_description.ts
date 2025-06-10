@@ -63,7 +63,6 @@ export const fetchGithubPRTitleAndDescription = async (variables: {
       title: result.data.repository.pullRequest.title,
       description: result.data.repository.pullRequest.body,
     };
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     throw new Error(`Error fetching PR description: ${error.message}`);
   }

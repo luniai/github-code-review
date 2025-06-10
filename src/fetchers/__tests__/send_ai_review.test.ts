@@ -49,4 +49,16 @@ describe('sendAiReview', () => {
     expect(sendGroqReview).not.toHaveBeenCalled();
     expect(result).toBe('openai');
   });
+
+  it('forwards messages to provider', async () => {
+    (global as any).chrome = {
+      runtime: {
+        sendMessage: vi.fn((msg, cb) => cb({ success: true, data: { defaultGenerativeAiConnector: 'open-ai' } }))
+      }
+    };
+
+    const msgs = [{ role: 'user', content: 'follow up' }];
+    await sendAiReview({ ...baseParams, messages: msgs });
+    expect(sendOpenAiReview).toHaveBeenCalledWith({ ...baseParams, messages: msgs });
+  });
 });

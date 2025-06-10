@@ -7,6 +7,7 @@ import { fetchGithubPRTitleAndDescription } from "./fetchers/fetch_github_pr_des
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import { domChangeWatcher } from "./utils/dom_change_watcher";
 import { sendAiReview } from "./fetchers/send_ai_review";
+import { AIMessage } from "./types";
 
 const GITHUB_PR_DETAILS_QUERY_KEY = "githubPrDetails";
 const OPEN_AI_REVIEW_QUERY_KEY = "openAiReview";
@@ -36,6 +37,11 @@ import { parseHtmlToGitDiff } from "./utils/parse_git_diff";
 // eslint-disable-next-line react-refresh/only-export-components
 const ReviewContainer = ({ isOpen, diffHtml, file }: ReviewContainerProps) => {
   const githubPrDetails = extractGitHubPRDetails(window.location.href);
+
+  const [messages, setMessages] = useState<AIMessage[]>([]);
+  const [replyText, setReplyText] = useState("");
+  const [isReplyLoading, setIsReplyLoading] = useState(false);
+  const [replyError, setReplyError] = useState<string | null>(null);
 
   const {
     data: prReviewData,
@@ -69,6 +75,39 @@ const ReviewContainer = ({ isOpen, diffHtml, file }: ReviewContainerProps) => {
     }
   );
 
+  useEffect(() => {
+    if (AIReviewData) {
+      setMessages([{ role: "assistant", content: AIReviewData }]);
+    }
+  }, [AIReviewData]);
+
+  const handleReply = async () => {
+    if (!replyText) return;
+    setIsReplyLoading(true);
+    setReplyError(null);
+    try {
+      const answer = await sendAiReview({
+        file,
+        codeDiff: diffHtml,
+        prDescription: prReviewData?.description,
+        prTitle: prReviewData?.title,
+        repository: `${githubPrDetails.owner}/${githubPrDetails.repo}`,
+        messages: messages.concat({ role: "user", content: replyText }),
+      });
+      setMessages((prev) =>
+        prev.concat(
+          { role: "user", content: replyText },
+          { role: "assistant", content: answer }
+        )
+      );
+      setReplyText("");
+    } catch (err: any) {
+      setReplyError(err.message);
+    } finally {
+      setIsReplyLoading(false);
+    }
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -95,7 +134,25 @@ const ReviewContainer = ({ isOpen, diffHtml, file }: ReviewContainerProps) => {
       )}
       {isAIReviewLoading && <p>Initiating AI Review...</p>}
       {isAIReviewError && <p>Error fetching AI review</p>}
-      {AIReviewData ? <pre>{AIReviewData}</pre> : null}
+      {messages.map((m, idx) => (
+        <pre key={idx}>{m.content}</pre>
+      ))}
+      {AIReviewData && (
+        <div>
+          <textarea
+            value={replyText}
+            onChange={(e) => setReplyText(e.target.value)}
+            rows={3}
+            cols={50}
+          />
+          <br />
+          <button onClick={handleReply} disabled={isReplyLoading}>
+            Reply
+          </button>
+          {isReplyLoading && <span> Sending...</span>}
+          {replyError && <p>Error: {replyError}</p>}
+        </div>
+      )}
     </div>
   );
 };

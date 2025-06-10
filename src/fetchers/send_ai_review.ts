@@ -1,5 +1,5 @@
 import { GET_GENERATIVE_AI_SETTINGS } from "../constants";
-import { GenerativeAiSettings } from "../types";
+import { GenerativeAiSettings, AIMessage } from "../types";
 import { sendGroqReview } from "./send_groq_review";
 import { sendOpenAiReview } from "./send_open_ai_review";
 
@@ -26,12 +26,14 @@ export const sendAiReview = async ({
   prDescription,
   repository,
   prTitle,
+  messages = [],
 }: {
   file: string;
   codeDiff: string;
   prDescription: string;
   repository: string;
   prTitle: string;
+  messages?: AIMessage[];
 }) => {
   // Fetch API key from background script via IndexedDB
   const generativeAiSettings = await fetchGenerativeAiSettingsFromBackground();
@@ -48,5 +50,6 @@ export const sendAiReview = async ({
     prDescription,
     repository,
     prTitle,
+    messages,
   });
 };
