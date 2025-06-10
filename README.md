@@ -107,6 +107,21 @@ Source: [docs](https://vitejs.dev/)
 - Use the node version specified in `.nvmrc` (currently v20.15.1).
 - Run `npm run dev` to start Vite in development mode and `npm run build` to generate the production bundle.
 
+## Testing
+
+Run unit tests using:
+
+```bash
+npm test
+```
+
+End-to-end tests are powered by [Playwright](https://playwright.dev/). Install the browsers once and then execute the tests:
+
+```bash
+npx playwright install
+npm run test:e2e
+```
+
 ## Contributing
 
 Thank you for considering contributing to the project. Please read the [CONTRIBUTING.md](CONTRIBUTING.md) file for more information before you start contributing.
