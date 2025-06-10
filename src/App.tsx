@@ -350,8 +350,10 @@ const SettingsComponent: React.FC = () => {
         </label>
       </fieldset>
       {showGithubTokenSuccess && <div>GitHub token saved successfully!</div>}
-      <button onClick={handleSaveAll}>Save Settings</button>
-      <button onClick={handleCancel}>Cancel</button>
+      <div className="action-buttons">
+        <button className="cancel-btn" onClick={handleCancel}>Cancel</button>
+        <button className="save-settings-btn" onClick={handleSaveAll}>Save Settings</button>
+      </div>
     </div>
   );
 };
