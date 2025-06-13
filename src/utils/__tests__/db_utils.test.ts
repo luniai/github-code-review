@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
+import type { GenerativeAiSettings } from '../../types';
 
 const generativeAiSettingsStore: { data?: any } = {};
 const githubSettingsStore: { data?: any } = {};
@@ -30,7 +31,7 @@ beforeEach(() => {
 
 describe('db_utils', () => {
   it('saves and retrieves generative AI settings', async () => {
-    const settings = {
+    const settings: GenerativeAiSettings = {
       id: 'default',
       openAiApiKey: 'key',
       groqApiKey: '',

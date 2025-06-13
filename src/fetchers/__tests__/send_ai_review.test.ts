@@ -1,4 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
+import type { AIMessage } from '../../types';
 
 vi.mock('../send_groq_review', () => ({
   sendGroqReview: vi.fn(async () => 'groq')
@@ -27,7 +28,7 @@ describe('sendAiReview', () => {
   it('uses Groq when configured', async () => {
     (global as any).chrome = {
       runtime: {
-        sendMessage: vi.fn((msg, cb) => cb({ success: true, data: { defaultGenerativeAiConnector: 'groq' } }))
+        sendMessage: vi.fn((_msg, cb) => cb({ success: true, data: { defaultGenerativeAiConnector: 'groq' } }))
       }
     };
 
@@ -40,7 +41,7 @@ describe('sendAiReview', () => {
   it('uses OpenAI when configured', async () => {
     (global as any).chrome = {
       runtime: {
-        sendMessage: vi.fn((msg, cb) => cb({ success: true, data: { defaultGenerativeAiConnector: 'open-ai' } }))
+        sendMessage: vi.fn((_msg, cb) => cb({ success: true, data: { defaultGenerativeAiConnector: 'open-ai' } }))
       }
     };
 
@@ -53,11 +54,11 @@ describe('sendAiReview', () => {
   it('forwards messages to provider', async () => {
     (global as any).chrome = {
       runtime: {
-        sendMessage: vi.fn((msg, cb) => cb({ success: true, data: { defaultGenerativeAiConnector: 'open-ai' } }))
+        sendMessage: vi.fn((_msg, cb) => cb({ success: true, data: { defaultGenerativeAiConnector: 'open-ai' } }))
       }
     };
 
-    const msgs = [{ role: 'user', content: 'follow up' }];
+    const msgs: AIMessage[] = [{ role: 'user', content: 'follow up' }];
     await sendAiReview({ ...baseParams, messages: msgs });
     expect(sendOpenAiReview).toHaveBeenCalledWith({ ...baseParams, messages: msgs });
   });
