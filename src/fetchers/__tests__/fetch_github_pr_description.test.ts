@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach, vi, type Mock } from 'vitest';
 import { fetchGithubPRTitleAndDescription } from '../fetch_github_pr_description';
 
 const baseVariables = { owner: 'o', repo: 'r', prNumber: 1 };
@@ -11,7 +11,7 @@ describe('fetchGithubPRTitleAndDescription', () => {
   it('returns title and description when successful', async () => {
     (global as any).chrome = {
       runtime: {
-        sendMessage: vi.fn((msg, cb) => cb({ success: true, data: { authToken: 'token' } }))
+        sendMessage: vi.fn((_msg, cb) => cb({ success: true, data: { authToken: 'token' } }))
       }
     };
     (global as any).fetch = vi.fn(async () => ({
@@ -21,13 +21,13 @@ describe('fetchGithubPRTitleAndDescription', () => {
 
     const result = await fetchGithubPRTitleAndDescription(baseVariables);
     expect(result).toEqual({ title: 'title', description: 'body' });
-    expect((global.fetch as unknown as vi.Mock)).toHaveBeenCalled();
+    expect((global.fetch as unknown as Mock)).toHaveBeenCalled();
   });
 
   it('throws when token is missing', async () => {
     (global as any).chrome = {
       runtime: {
-        sendMessage: vi.fn((msg, cb) => cb({ success: true, data: undefined }))
+        sendMessage: vi.fn((_msg, cb) => cb({ success: true, data: undefined }))
       }
     };
 
@@ -37,7 +37,7 @@ describe('fetchGithubPRTitleAndDescription', () => {
   it('throws when response is not ok', async () => {
     (global as any).chrome = {
       runtime: {
-        sendMessage: vi.fn((msg, cb) => cb({ success: true, data: { authToken: 'token' } }))
+        sendMessage: vi.fn((_msg, cb) => cb({ success: true, data: { authToken: 'token' } }))
       }
     };
     (global as any).fetch = vi.fn(async () => ({ ok: false, statusText: 'Bad Request' })) as any;
