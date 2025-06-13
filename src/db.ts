@@ -11,7 +11,7 @@ class SettingsDatabase extends Dexie {
     super("SettingsDatabase");
     this.version(1).stores({
       generativeAiSettings:
-        "id, openAiApiKey, groqApiKey, defaultOpenAiModel, defaultGroqModel, customPrompt, customPromptRole, defaultGenerativeAiConnector", // Indexed by 'id'
+        "id, openAiApiKey, groqApiKey, defaultOpenAiModel, defaultGroqModel, openAiEndpoint, groqEndpoint, customPrompt, customPromptRole, defaultGenerativeAiConnector", // Indexed by 'id'
       githubSettings: "id, authToken", // Indexed by 'id'
     });
 

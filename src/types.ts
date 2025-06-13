@@ -5,6 +5,8 @@ export interface GenerativeAiSettings {
   groqApiKey: string;
   defaultOpenAiModel: string;
   defaultGroqModel: string;
+  openAiEndpoint?: string;
+  groqEndpoint?: string;
   customPrompt: string;
   customPromptRole: string;
   defaultGenerativeAiConnector: GenerativeAiConnector;
