@@ -35,6 +35,8 @@ describe('db_utils', () => {
       id: 'default',
       openAiApiKey: 'key',
       groqApiKey: '',
+      openAiEndpoint: '',
+      groqEndpoint: '',
       defaultOpenAiModel: 'model',
       defaultGroqModel: 'groq',
       customPrompt: 'p',

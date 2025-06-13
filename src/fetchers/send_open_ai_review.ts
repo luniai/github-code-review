@@ -77,7 +77,10 @@ export const sendOpenAiReview = async ({
 
   const allMessages = baseMessages.concat(messages);
 
-  const response = await fetch(OPEN_AI_V1_CHAT_COMPLETIONS_URL, {
+  const endpoint =
+    generativeAiSettings?.openAiEndpoint || OPEN_AI_V1_CHAT_COMPLETIONS_URL;
+
+  const response = await fetch(endpoint, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

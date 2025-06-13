@@ -42,6 +42,8 @@ export const defaultGenerativeAiSettings: GenerativeAiSettings = {
   groqApiKey: "",
   defaultOpenAiModel: "gpt-4o-mini",
   defaultGroqModel: "llama-3.1-70b-versatile",
+  openAiEndpoint: "",
+  groqEndpoint: "",
   customPrompt,
   customPromptRole,
   defaultGenerativeAiConnector: "open-ai",

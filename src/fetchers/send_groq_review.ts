@@ -77,7 +77,10 @@ export const sendGroqReview = async ({
 
   const allMessages = baseMessages.concat(messages);
 
-  const response = await fetch(GROQ_V1_CHAT_COMPLETIONS_URL, {
+  const endpoint =
+    generativeAiSettings?.groqEndpoint || GROQ_V1_CHAT_COMPLETIONS_URL;
+
+  const response = await fetch(endpoint, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

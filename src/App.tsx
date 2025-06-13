@@ -79,8 +79,14 @@ const SettingsComponent: React.FC = () => {
   const [openAiApiKey, setOpenAiApiKey] = useState<string>(
     generativeAiSettings.openAiApiKey
   );
+  const [openAiEndpoint, setOpenAiEndpoint] = useState<string>(
+    generativeAiSettings.openAiEndpoint || ""
+  );
   const [groqApiKey, setGroqApiKey] = useState<string>(
     generativeAiSettings.groqApiKey
+  );
+  const [groqEndpoint, setGroqEndpoint] = useState<string>(
+    generativeAiSettings.groqEndpoint || ""
   );
   const [defaultOpenAiModel, setDefaultOpenAiModel] = useState<string>(
     generativeAiSettings.defaultOpenAiModel
@@ -103,6 +109,8 @@ const SettingsComponent: React.FC = () => {
   useEffect(() => {
     setOpenAiApiKey(generativeAiSettings.openAiApiKey);
     setGroqApiKey(generativeAiSettings.groqApiKey);
+    setOpenAiEndpoint(generativeAiSettings.openAiEndpoint || "");
+    setGroqEndpoint(generativeAiSettings.groqEndpoint || "");
     setCustomPrompt(generativeAiSettings.customPrompt);
     setCustomPromptRole(generativeAiSettings.customPromptRole);
     setDefaultOpenAiModel(generativeAiSettings.defaultOpenAiModel);
@@ -136,6 +144,8 @@ const SettingsComponent: React.FC = () => {
       id: "default",
       openAiApiKey,
       groqApiKey,
+      openAiEndpoint,
+      groqEndpoint,
       customPrompt,
       customPromptRole,
       defaultOpenAiModel,
@@ -151,6 +161,8 @@ const SettingsComponent: React.FC = () => {
   const handleCancel = () => {
     setOpenAiApiKey(generativeAiSettings.openAiApiKey);
     setGroqApiKey(generativeAiSettings.groqApiKey);
+    setOpenAiEndpoint(generativeAiSettings.openAiEndpoint || "");
+    setGroqEndpoint(generativeAiSettings.groqEndpoint || "");
     setCustomPrompt(generativeAiSettings.customPrompt);
     setCustomPromptRole(generativeAiSettings.customPromptRole);
     setDefaultOpenAiModel(generativeAiSettings.defaultOpenAiModel);
@@ -220,6 +232,17 @@ const SettingsComponent: React.FC = () => {
           </fieldset>
           <fieldset>
             <label>
+              Custom Endpoint (optional):
+              <input
+                type="text"
+                value={openAiEndpoint}
+                onChange={(e) => setOpenAiEndpoint(e.target.value)}
+                placeholder="https://your-openai-endpoint"
+              />
+            </label>
+          </fieldset>
+          <fieldset>
+            <label>
               Select Model:
               <br />
               <select
@@ -282,6 +305,17 @@ const SettingsComponent: React.FC = () => {
                   {isVisibleApiKey ? <VisibleEye /> : <HiddenEye />}
                 </button>
               </div>
+            </label>
+          </fieldset>
+          <fieldset>
+            <label>
+              Custom Endpoint (optional):
+              <input
+                type="text"
+                value={groqEndpoint}
+                onChange={(e) => setGroqEndpoint(e.target.value)}
+                placeholder="https://your-groq-endpoint"
+              />
             </label>
           </fieldset>
           <fieldset>

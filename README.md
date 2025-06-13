@@ -104,6 +104,8 @@ Source: [docs](https://vitejs.dev/)
 ## Important things to know
 
 - You will need both a GitHub token and an API key for either OpenAI or Groq.
+- You can provide a custom OpenAI or Groq endpoint in the extension settings. If
+  left empty, the default API URLs are used.
 - Use the node version specified in `.nvmrc` (currently v20.15.1).
 - Run `npm run dev` to start Vite in development mode and `npm run build` to generate the production bundle.
 
