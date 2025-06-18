@@ -2,6 +2,7 @@ import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
   testDir: './tests',
+  testMatch: '**/*.e2e.ts',
   webServer: {
     command: 'npm run build && npm run preview -- --port=5173',
     url: 'http://localhost:5173',
