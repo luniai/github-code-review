@@ -2,6 +2,7 @@ import { GET_GENERATIVE_AI_SETTINGS } from "../constants";
 import { GenerativeAiSettings, AIMessage } from "../types";
 import { sendGroqReview } from "./send_groq_review";
 import { sendOpenAiReview } from "./send_open_ai_review";
+import { selfReview } from "./self_review";
 
 function fetchGenerativeAiSettingsFromBackground(): Promise<
   GenerativeAiSettings | undefined
@@ -44,7 +45,7 @@ export const sendAiReview = async ({
   const sendAiFn =
     defaultGenerativeAiConnector === "groq" ? sendGroqReview : sendOpenAiReview;
 
-  return sendAiFn({
+  const review = await sendAiFn({
     file,
     codeDiff,
     prDescription,
@@ -52,4 +53,10 @@ export const sendAiReview = async ({
     prTitle,
     messages,
   });
+
+  if (generativeAiSettings) {
+    return selfReview(review, generativeAiSettings);
+  }
+
+  return review;
 };

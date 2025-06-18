@@ -7,10 +7,14 @@ vi.mock('../send_groq_review', () => ({
 vi.mock('../send_open_ai_review', () => ({
   sendOpenAiReview: vi.fn(async () => 'openai')
 }));
+vi.mock('../self_review', () => ({
+  selfReview: vi.fn(async (_text: string) => 'self-reviewed')
+}));
 
 import { sendAiReview } from '../send_ai_review';
 import { sendGroqReview } from '../send_groq_review';
 import { sendOpenAiReview } from '../send_open_ai_review';
+import { selfReview } from '../self_review';
 
 beforeEach(() => {
   vi.clearAllMocks();
@@ -35,7 +39,8 @@ describe('sendAiReview', () => {
     const result = await sendAiReview(baseParams);
     expect(sendGroqReview).toHaveBeenCalled();
     expect(sendOpenAiReview).not.toHaveBeenCalled();
-    expect(result).toBe('groq');
+    expect(selfReview).toHaveBeenCalledWith('groq', expect.any(Object));
+    expect(result).toBe('self-reviewed');
   });
 
   it('uses OpenAI when configured', async () => {
@@ -48,7 +53,8 @@ describe('sendAiReview', () => {
     const result = await sendAiReview(baseParams);
     expect(sendOpenAiReview).toHaveBeenCalled();
     expect(sendGroqReview).not.toHaveBeenCalled();
-    expect(result).toBe('openai');
+    expect(selfReview).toHaveBeenCalledWith('openai', expect.any(Object));
+    expect(result).toBe('self-reviewed');
   });
 
   it('forwards messages to provider', async () => {
@@ -61,5 +67,6 @@ describe('sendAiReview', () => {
     const msgs: AIMessage[] = [{ role: 'user', content: 'follow up' }];
     await sendAiReview({ ...baseParams, messages: msgs });
     expect(sendOpenAiReview).toHaveBeenCalledWith({ ...baseParams, messages: msgs });
+    expect(selfReview).toHaveBeenCalled();
   });
 });
