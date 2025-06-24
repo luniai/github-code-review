@@ -15,8 +15,14 @@ export interface GithubSettings {
     authToken: string;
 }
 
+// export interface ModelDropdownProps {
+//     defaultValue: string[];
+//     size?: 'md';
+//     width?: string;
+// }
 export interface ModelDropdownProps {
-    defaultValue: string[];
-    size?: 'md';
+    defaultValue?: string[];
+    size?: string;
     width?: string;
+    onReset?: () => void;
 }

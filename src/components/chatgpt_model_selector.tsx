@@ -3,7 +3,6 @@ import { ModelDropdownProps } from '@/types';
 import {
     SelectContent,
     SelectItem,
-    SelectLabel,
     SelectRoot,
     SelectTrigger,
     SelectValueText
@@ -12,7 +11,7 @@ import {
 const ChatGPTModelSelector: React.FC<ModelDropdownProps> = ({
     defaultValue = ['gpt-4o'], // set a fallback value
     size = 'md',
-    width = '515px'
+    width = '200px'
 }) => {
     return (
         <SelectRoot
@@ -21,8 +20,7 @@ const ChatGPTModelSelector: React.FC<ModelDropdownProps> = ({
             size={size}
             width={width}
         >
-            <SelectLabel>Select Model:</SelectLabel>
-            <SelectTrigger className="border" clearable>
+            <SelectTrigger className="border">
                 <SelectValueText placeholder="Select model" />
             </SelectTrigger>
             <SelectContent>
@@ -40,5 +38,4 @@ const ChatGPTModelSelector: React.FC<ModelDropdownProps> = ({
         </SelectRoot>
     );
 };
-
 export default ChatGPTModelSelector;
