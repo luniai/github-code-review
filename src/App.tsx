@@ -252,7 +252,7 @@ const SettingsComponent: React.FC = () => {
                         </label>
                     </fieldset>
                     <fieldset>
-                        <label>
+                        <label htmlFor="chatgpt-model-selector-input">
                             Select Model:
                             <div className="select-model-wrapper">
                                 <div className="select-reset-box">
