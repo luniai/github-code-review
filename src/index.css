@@ -1,38 +1,59 @@
 :root {
-    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     line-height: 1.5;
     font-weight: 400;
+    color: #ffffffde;
 
     color-scheme: light dark;
-    color: rgba(255, 255, 255, 0.87);
-    background-color: #242424;
-
-    font-synthesis: none;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
 
     /* Color variables */
+    --background-color: #242424;
     --global-border-color: #919191;
-    --primary-bg-color: #ffffff;
-    --grey-light: #f5f5f5; /* Light grey color */
-    --hover-bg-color: #e6e6e6;
-    --hover-border-color: #000000;
+    --dark-grey-border: #727272;
+    --colors-light-bg-default: #ffffff;
+    --colors-dark-bg-default: #242424;
+    --colors-dark-font: #000000;
+    --colors-font-white: #ffffff;
 
     /* Spacing */
     --container-padding-left: 20px;
     --container-padding-right: 20px;
-}
 
-a {
-    font-weight: 500;
-    color: #646cff;
-    text-decoration: inherit;
+    /* Icon Color */
+    --reset-icon-color: #d1d5db;
 }
-a:hover {
-    color: #535bf2;
-}
+/*=== Light / Dark Theme ===*/
+@media (prefers-color-scheme: light) {
+    body {
+        color: var(--colors-dark-font);
+        background-color: #ffffff;
+    }
+    a:hover {
+        color: #747bff;
+    }
 
+    svg {
+        stroke: #1e1e1e;
+    }
+    .selector-content-background {
+        background-color: var(--colors-light-bg-default);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: var(--colors-dark-bg-default);
+    }
+    a:hover {
+        color: #747bff;
+    }
+    svg {
+        stroke: #f9f9f9;
+    }
+
+    .selector-content-background {
+        background-color: var(--colors-dark-bg-default);
+        border: 1px solid var(--dark-grey-border);
+    }
+}
 body {
     margin: 0;
     display: flex;
@@ -41,9 +62,14 @@ body {
     min-height: 100vh;
 }
 
-h1 {
-    font-size: 3.2em;
-    line-height: 1.1;
+a {
+    font-weight: 500;
+    color: #646cff;
+    text-decoration: inherit;
+}
+
+a:hover {
+    color: #535bf2;
 }
 
 h2 {
@@ -52,17 +78,27 @@ h2 {
     margin-top: 1em;
     margin-bottom: 0.8em;
 }
+.text-wrapper {
+    max-width: 330px;
+}
+
+.cursor {
+    cursor: pointer;
+}
+
+.border {
+    border: none;
+}
+
+.api-input {
+    font-size: 16px;
+    line-height: 140%;
+}
 
 fieldset {
     border: 1px solid var(--global-border-color);
     padding: 10px;
     margin-bottom: 5px;
-}
-
-.select-model-container {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
 }
 
 /*=== Button Styles ===*/
@@ -74,51 +110,28 @@ fieldset {
     font-size: 1em;
     font-weight: 500;
     font-family: inherit;
-    background-color: #1a1a1a;
+    background-color: var(--background-color);
+    color: var(--colors-font-white);
     cursor: pointer;
     transition: border-color 0.25s;
 }
-
-button:focus,
-button:focus-visible {
-    outline: 4px auto -webkit-focus-ring-color;
-}
-
-svg {
-    stroke: #f9f9f9;
-}
-
-@media (prefers-color-scheme: light) {
-    :root {
-        color: #213547;
-        background-color: #ffffff;
-    }
-    a:hover {
-        color: #747bff;
-    }
-    button {
-        background-color: #f9f9f9;
-    }
-
-    svg {
-        stroke: #1e1e1e;
-    }
-}
-
-.cursor {
-    cursor: pointer;
-}
-.cursor:hover {
-    background-color: var(--hover-bg-color);
-}
-.border {
+/* Reset button visually embedded */
+.reset-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 5px 0 3px;
+    height: 100%;
+    background: transparent;
     border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+.reset-button svg {
+    width: 31px;
+    height: 31px;
 }
 
-.api-input {
-    font-size: 16px;
-    line-height: 140%;
-}
 /*=== Container Styles ===*/
 .input-container {
     position: relative;
@@ -165,24 +178,12 @@ svg {
 .select-reset-box {
     display: flex;
     align-items: center;
-    border: 1px solid #d1d5db;
+    border: 1px solid var(--reset-icon-color);
     border-radius: 8px;
     overflow: hidden;
 }
-
-/* Reset button visually embedded */
-.reset-button {
+.select-model-container {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 5px 0 3px;
-    height: 100%;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-}
-.reset-button svg {
-    width: 31px;
-    height: 31px;
+    flex-direction: column;
+    gap: 15px;
 }

@@ -10,7 +10,7 @@ import {
 } from './constants';
 import { GenerativeAiConnector } from './types';
 import './index.css';
-import ChatGPTModelSelector from './components/chatgpt_model_selector';
+import ChatGPTModelSelector from './components/model_selector/chatgpt_model_selector';
 import CustomResetIcon from './components/icons/ResetIcon';
 
 const VisibleEye = () => (
@@ -177,6 +177,27 @@ const SettingsComponent: React.FC = () => {
     const handlePromptReset = () => {
         setCustomPrompt(defaultGenerativeAiSettings.customPrompt);
     };
+    useEffect(() => {
+        const updateTheme = (e: MediaQueryListEvent | MediaQueryList) => {
+            const isDark = e.matches;
+            document.documentElement.setAttribute(
+                'data-theme',
+                isDark ? 'dark' : 'light'
+            );
+        };
+
+        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+        // Set initial theme
+        updateTheme(mediaQuery);
+
+        // Listen for changes
+        mediaQuery.addEventListener('change', updateTheme);
+
+        return () => {
+            mediaQuery.removeEventListener('change', updateTheme);
+        };
+    }, []);
 
     return (
         <div>
@@ -254,27 +275,30 @@ const SettingsComponent: React.FC = () => {
                             <p>
                                 Here are some available ChatGPT model options:
                             </p>
-                            <p>
-                                <b>
-                                    {chatgptModelOptions.items
-                                        ? chatgptModelOptions.items
-                                              .map(model => model.label)
-                                              .join(', ')
-                                        : 'No models available'}
-                                </b>
-                            </p>
-                            <br />
-                            <p>
-                                For a complete list of models, please check the{' '}
-                                <a
-                                    href={CHATGPT_MODELS_URL}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    ChatGPT models page
-                                </a>
-                                .
-                            </p>
+                            <div className="text-wrapper">
+                                <p>
+                                    <b>
+                                        {chatgptModelOptions.items
+                                            ? chatgptModelOptions.items
+                                                  .map(model => model.label)
+                                                  .join(', ')
+                                            : 'No models available'}
+                                    </b>
+                                </p>
+                                <br />
+                                <p>
+                                    For a complete list of models, please check
+                                    the{' '}
+                                    <a
+                                        href={CHATGPT_MODELS_URL}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        ChatGPT models page
+                                    </a>
+                                    .
+                                </p>
+                            </div>
                         </label>
                     </fieldset>
                 </>
