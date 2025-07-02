@@ -1,14 +1,7 @@
 import { chatgptModelOptions, defaultGenerativeAiSettings } from "../constants";
 import { Portal, Select } from "@chakra-ui/react";
-import { useEffect } from "react";
 
 const ChatGPTModelSelector = ({ value, onChange }) => {
-	useEffect(() => {
-		if (value) {
-			console.log("Current gpt model:", value);
-		}
-	}, [value]);
-
 	return (
 		<Select.Root
 			collection={chatgptModelOptions}
