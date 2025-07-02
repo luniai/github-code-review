@@ -1,66 +1,97 @@
+/* Base Styles (Light Mode By Default)*/
 :root {
-	font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-	line-height: 1.5;
-	font-weight: 400;
-
 	color-scheme: light dark;
-	color: #ffffffde;
-	background-color: #242424;
-}
 
+	--btn-text-color: #ffffffde;
+
+	/* Link Colors */
+	--theme-link-color: #262fdd;
+	--theme-link-hover-color: #535bf2;
+
+	/* Button Colors */
+	--theme-button-bg: #080808;
+
+	--theme-selector-content-bg: #242424;
+	--theme-text-color: #1e1e1e;
+	--theme-background-color: #ffffff;
+	--theme-svg-stroke: #1e1e1e;
+	--theme-selector-content-bg: #ffffff;
+	--selector-content-border: #d9d9d9;
+}
+/* Dark Mode Theme */
+@media (prefers-color-scheme: dark) {
+	:root {
+		--theme-text-color: #ffffffde;
+		--theme-background-color: #242424;
+		--theme-link-color: #a7acfd;
+		--theme-link-hover-color: #747bff;
+		--theme-button-bg: #5e5e5e;
+		--theme-svg-stroke: #f9f9f9;
+		--theme-selector-content-bg: #242424;
+		--selector-content-border: #3a3a3a;
+	}
+}
+body {
+	color: var(--theme-text-color);
+	background-color: var(--theme-background-color);
+}
+/* Link Styles */
 a {
 	font-weight: 500;
-	color: #646cff;
-	text-decoration: inherit;
+	color: var(--theme-link-color);
+	text-decoration: none;
 }
+
 a:hover {
-	color: #535bf2;
+	color: var(--theme-link-hover-color);
 }
 
+/* SVG Styles */
 svg {
-	stroke: #f9f9f9;
+	stroke: var(--theme-svg-stroke);
 }
 
-@media (prefers-color-scheme: light) {
-	:root {
-		color: #213547;
-		background-color: #ffffff;
-	}
-	a:hover {
-		color: #747bff;
-	}
-	button {
-		background-color: #f9f9f9;
-	}
-
-	svg {
-		stroke: #1e1e1e;
-	}
-	.selector-content-background {
-		background-color: #ffffff;
-	}
+/* Button Styles */
+button {
+	border-radius: 8px;
+	border: none;
+	font-size: 1em;
+	font-weight: 500;
+	font-family: inherit;
+	cursor: pointer;
+	transition: border-color 0.25s;
 }
 
-@media (prefers-color-scheme: dark) {
-	body {
-		background-color: #242424;
-	}
-	a:hover {
-		color: #747bff;
-	}
-	svg {
-		stroke: #f9f9f9;
-	}
-
-	.global-button {
-		background-color: #5e5e5e;
-		padding: 0.6em 1.2em;
-	}
-	.selector-content-background {
-		background-color: #242424;
-	}
+.global-button {
+	background-color: var(--theme-button-bg);
+	color: var(--btn-text-color);
+	padding: 0.6em 1.2em;
 }
 
+.action-buttons {
+	display: flex;
+	gap: 8px;
+	margin-top: 16px;
+}
+
+.save-settings-btn,
+.cancel-btn {
+	width: 126px;
+	height: 40px;
+	border-radius: 8px;
+	color: #f5f5f5;
+	background-color: var(--theme-button-bg);
+}
+
+.cancel-btn {
+	margin-right: 0;
+}
+
+button:hover {
+	border-color: #646cff;
+}
+
+/* API Input Section */
 .api-input {
 	font-size: 16px;
 	line-height: 140%;
@@ -91,9 +122,7 @@ svg {
 	border: none;
 	display: flex;
 	align-items: center;
-	/* justify-content: center; */
 	padding: 0 4px 0 4px;
-	/* padding-left: 16px; */
 }
 
 .input-container button img {
@@ -101,43 +130,21 @@ svg {
 	height: 32px;
 }
 
-.action-buttons {
-	display: flex;
-	gap: 8px;
-	margin-top: 16px;
+/* Open AI Model Selector Dropdown Menu */
+
+.selector-control {
+	width: 200px;
 }
 
-.save-settings-btn,
-.cancel-btn {
-	width: 126px;
-	height: 40px;
+.selector-content-background {
+	position: relative;
+	left: -6px;
+	width: 196px;
+	background-color: var(--theme-selector-content-bg);
+	border: 1px solid var(--selector-content-border);
 	border-radius: 8px;
-	color: #f5f5f5;
+	padding: 8px;
 }
-
-.cancel-btn {
-	margin-right: 0;
-}
-
-button {
-	border-radius: 8px;
-	border: none;
-	/* border: 1px solid transparent;*/
-	/* padding: 0.6em 1.2em; */
-	font-size: 1em;
-	font-weight: 500;
-	font-family: inherit;
-	/* background-color: transparent; */
-	cursor: pointer;
-	transition: border-color 0.25s;
-}
-button:hover {
-	border-color: #646cff;
-}
-/* button:focus,
-button:focus-visible {
-	outline: 4px auto -webkit-focus-ring-color;
-} */
 
 .select-reset-box {
 	display: flex;
@@ -153,6 +160,19 @@ button:focus-visible {
 	padding: 10px 0 12px 0;
 }
 
-/* .reset-button button {
-	background-color: transparent;
-} */
+.selector-trigger {
+	width: 16px;
+	height: 16px;
+}
+
+.selector-items {
+	cursor: pointer;
+	font-weight: 400;
+	border-radius: 4px;
+	padding: 4px;
+}
+
+.text-wrapper {
+	padding: 5px 0 5px 0;
+	max-width: 330px;
+}

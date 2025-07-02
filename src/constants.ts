@@ -27,13 +27,6 @@ export const customPromptRole =
 
 export const CHATGPT_MODELS_URL = "https://platform.openai.com/docs/models";
 
-// export const availableModels = [
-//   "gpt-4o",
-//   "gpt-4o-mini",
-//   "gpt-4o-turbo",
-//   "gpt-4",
-//   "gpt-3.5-turbo",
-// ];
 export const chatgptModelOptions = createListCollection({
 	items: [
 		{ label: "gpt-4o", value: "gpt-4o" },

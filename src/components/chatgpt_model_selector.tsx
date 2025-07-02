@@ -1,22 +1,23 @@
-import { chatgptModelOptions } from "../constants";
-import { ModelDropdownProps } from "../types";
+import { chatgptModelOptions, defaultGenerativeAiSettings } from "../constants";
 import { Portal, Select } from "@chakra-ui/react";
+import { useEffect } from "react";
 
-const ChatGPTModelSelector: React.FC<ModelDropdownProps> = ({
-	defaultValue = ["gpt-4o"], // set a fallback value
-	size = "md",
-	width = "200px",
-}) => {
+const ChatGPTModelSelector = ({ value, onChange }) => {
+	useEffect(() => {
+		if (value) {
+			console.log("Current gpt model:", value);
+		}
+	}, [value]);
+
 	return (
 		<Select.Root
 			collection={chatgptModelOptions}
-			defaultValue={defaultValue}
-			size={size}
-			width={width}
+			value={[value || defaultGenerativeAiSettings.defaultOpenAiModel]}
+			onValueChange={({ value }) => onChange(value[0])}
 		>
 			<Select.HiddenSelect />
-			<Select.Control>
-				<Select.Trigger>
+			<Select.Control className="selector-control">
+				<Select.Trigger className="border">
 					<Select.ValueText placeholder="Select model" />
 				</Select.Trigger>
 				<Select.IndicatorGroup>

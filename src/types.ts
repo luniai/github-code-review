@@ -21,9 +21,3 @@ export interface AIMessage {
 	role: "system" | "user" | "assistant";
 	content: string;
 }
-
-export interface ModelDropdownProps {
-	defaultValue: string[];
-	size?: "md";
-	width?: string;
-}

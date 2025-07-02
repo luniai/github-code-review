@@ -118,7 +118,6 @@ const SettingsComponent: React.FC = () => {
 		useState(false);
 
 	const [isVisibleApiKey, setIsVisibleApiKey] = useState(false);
-	const [resetKey, setResetKey] = useState(0);
 
 	useEffect(() => {
 		setOpenAiApiKey(generativeAiSettings.openAiApiKey);
@@ -187,7 +186,6 @@ const SettingsComponent: React.FC = () => {
 	const handleModelReset = () => {
 		setDefaultOpenAiModel(defaultGenerativeAiSettings.defaultOpenAiModel);
 		setDefaultGroqModel(defaultGenerativeAiSettings.defaultGroqModel);
-		setResetKey((prevKey) => prevKey + 1);
 	};
 
 	const handlePromptRoleReset = () => {
@@ -275,10 +273,8 @@ const SettingsComponent: React.FC = () => {
 							<div className="select-model-wrapper">
 								<div className="select-reset-box">
 									<ChatGPTModelSelector
-										key={resetKey}
-										defaultValue={[
-											generativeAiSettings.defaultOpenAiModel,
-										]}
+										value={defaultOpenAiModel}
+										onChange={setDefaultOpenAiModel}
 									/>{" "}
 									<button
 										type="button"
@@ -425,7 +421,9 @@ const SettingsComponent: React.FC = () => {
 						onChange={(e) => setCustomPrompt(e.target.value)}
 					/>
 				</label>
-				<button onClick={handlePromptReset}>Reset to default</button>
+				<button onClick={handlePromptReset} className="global-button">
+					Reset to default
+				</button>
 			</fieldset>
 
 			{showGenerativeAiSuccess && <div>Settings saved successfully!</div>}
