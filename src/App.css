@@ -1,56 +1,197 @@
-.api-input {
-  font-size: 16px;
-  line-height: 140%;
+/* Base Styles (Light Mode By Default)*/
+:root {
+	color-scheme: light dark;
+
+	--btn-text-color: #000000de;
+
+	/* Link Colors */
+	--theme-link-color: #262fdd;
+	--theme-link-hover-color: #535bf2;
+
+	/* Border Colors */
+	--global-border-color: #919191;
+	/* Button Colors */
+	--theme-button-bg: #e9e9e9;
+	--save-btn-color: #2c2c2c;
+
+	--theme-selector-content-bg: #242424;
+	--theme-text-color: #1e1e1e;
+	--theme-background-color: #ffffff;
+	--theme-svg-stroke: #1e1e1e;
+	--theme-selector-content-bg: #ffffff;
+	--selector-content-border: #d9d9d9;
+}
+/* Dark Mode Theme */
+@media (prefers-color-scheme: dark) {
+	:root {
+		--theme-text-color: #ffffffde;
+		--theme-background-color: #242424;
+		--theme-link-color: #a7acfd;
+		--theme-link-hover-color: #747bff;
+		--theme-button-bg: #5e5e5e;
+		--theme-svg-stroke: #f9f9f9;
+		--theme-selector-content-bg: #242424;
+		--selector-content-border: #3a3a3a;
+		--btn-text-color: #ffffffde;
+	}
+}
+h2 {
+	font-size: 24px;
+	font-weight: bold;
+	line-height: 1.2;
+	margin-bottom: 24px;
 }
 
-.input-container {
-  position: relative;
-  width: 239px;
-  height: 38px;
-  margin-top: 8px;
-  display: flex;
-  border-radius: 8px;
-  border: 1px solid #c7c7ce;
+fieldset {
+	width: 400px;
+}
+fieldset,
+textarea {
+	border: 1px solid var(--global-border-color);
+	padding: 10px;
+	margin-bottom: 5px;
+}
+body {
+	color: var(--theme-text-color);
+	background-color: var(--theme-background-color);
+}
+/* Link Styles */
+a {
+	font-weight: 500;
+	color: var(--theme-link-color);
+	text-decoration: none;
 }
 
-.input-container input {
-  font-size: 16px;
-  width: 100%;
-  border: none;
-  border-radius: 8px 0 0 8px;
-  padding-left: 16px;
-  line-height: 100%;
+a:hover {
+	color: var(--theme-link-hover-color);
 }
 
-.input-container button {
-  border-radius: 0px 8px 8px 0;
-  background: none;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 4px 0 4px;
+/* SVG Styles */
+svg {
+	stroke: var(--theme-svg-stroke);
 }
 
-.input-container button img {
-  width: 32px;
-  height: 32px;
+/* Button Styles */
+button {
+	border-radius: 8px;
+	border: none;
+	font-size: 1em;
+	font-weight: 500;
+	font-family: inherit;
+	cursor: pointer;
+	transition: border-color 0.25s;
+}
+
+.global-button {
+	background-color: var(--theme-button-bg);
+	color: var(--btn-text-color);
+	padding: 0.6em 1.2em;
 }
 
 .action-buttons {
-  display: flex;
-  gap: 8px;
-  margin-top: 16px;
+	display: flex;
+	gap: 8px;
+	margin-top: 16px;
 }
 
 .save-settings-btn,
 .cancel-btn {
-  width: 126px;
-  height: 40px;
-  border-radius: 8px;
-  color: #f5f5f5;
+	width: 126px;
+	height: 40px;
+	border-radius: 8px;
+	color: #f5f5f5;
+	background-color: var(--save-btn-color);
 }
 
 .cancel-btn {
-  margin-right: 0;
+	margin-right: 0;
+}
+
+button:hover {
+	border-color: #646cff;
+}
+
+/* API Input Section */
+.api-input {
+	font-size: 16px;
+	line-height: 140%;
+}
+
+.input-container {
+	position: relative;
+	width: 239px;
+	height: 40px;
+	margin-top: 8px;
+	display: flex;
+	border-radius: 8px;
+	border: 1px solid #c7c7ce;
+}
+
+.input-container input {
+	font-size: 16px;
+	width: 100%;
+	border: none;
+	border-radius: 8px 0 0 8px;
+	padding-left: 16px;
+	line-height: 100%;
+}
+
+.input-container button {
+	border-radius: 0px 8px 8px 0;
+	background: none;
+	border: none;
+	display: flex;
+	align-items: center;
+	padding: 0 4px 0 4px;
+}
+
+.input-container button img {
+	width: 32px;
+	height: 32px;
+}
+
+/* Open AI Model Selector Dropdown Menu */
+
+.selector-control {
+	width: 200px;
+}
+
+.selector-content-background {
+	position: relative;
+	width: 196px;
+	background-color: var(--theme-selector-content-bg);
+	border: 1px solid var(--selector-content-border);
+	border-radius: 8px;
+	padding: 8px;
+}
+
+.select-reset-box {
+	display: flex;
+	align-items: center;
+	border: 1px solid #d1d5db;
+	border-radius: 8px;
+	overflow: hidden;
+	padding-right: 5px;
+}
+.select-model-wrapper {
+	display: flex;
+	align-items: center;
+	padding: 10px 0 12px 0;
+}
+
+.selector-trigger {
+	width: 16px;
+	height: 16px;
+}
+
+.selector-items {
+	cursor: pointer;
+	font-weight: 400;
+	border-radius: 4px;
+	padding: 4px;
+}
+
+.text-wrapper {
+	padding: 5px 0 5px 0;
+	max-width: 330px;
 }
