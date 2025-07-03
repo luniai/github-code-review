@@ -158,7 +158,6 @@ button:hover {
 
 .selector-content-background {
 	position: relative;
-	left: -6px;
 	width: 196px;
 	background-color: var(--theme-selector-content-bg);
 	border: 1px solid var(--selector-content-border);
